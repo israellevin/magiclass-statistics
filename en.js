@@ -1,8 +1,13 @@
 lang = {
     'direction': 'ltr',
-    'headline': 'Welcome to ',
+    'headline': 'Reports System',
     'attendance': 'Attendance',
-    'presentation': 'Presentation',
-    'test': 'Test',
+    'presentations': 'Presentations',
+    'tests': 'Tests',
     'feedback': 'Feedback',
+    'byDate': 'by Date',
+    'byLesson': 'by Lesson',
+    'byClass': 'by Class',
+    'byStudent': 'by Student',
+    'byName': 'by Name',
 }    

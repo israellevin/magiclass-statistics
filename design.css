@@ -1,9 +1,33 @@
 body
 {
     background-color: #fefef5;
+    text-align: center;
+}
+
+#header img, #header span
+{
+    margin-left: 50px;
+    margin-right: 50px;
 }
 
 #headline
 {
     font-size: 20pt;
+    position: relative;
+    top: -1em;
+}
+
+#menu table
+{
+    border-collapse: collapse;
+    width: 50%;
+    border: 2px solid black;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+td
+{
+    border: 1px solid gray;
+    text-align: center;
 }

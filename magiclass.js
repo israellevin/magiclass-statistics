@@ -1,29 +1,8 @@
 var lang;
-var menu;
-
-function initMenu()
-{
-    menu = {
-        'attendance': {
-            'byDate': {},
-            'byLesson': {},
-            'byClass': {},
-            'byStudent': {},
-        },
-        'presentation': {},
-        'test': {},
-        'feedback': {},
-    };
-}
-
-function getMenu(loc){
-    loc = loc ? loc.split('.') : ' ';
-    jQuery.each(loc, function(){
-        alert(this);
-    });
-}
+var action;
 
 $(document).ready(function(){
+    action = ['', ''];
     // Get language from location params in the form "lang=xx"
     var loc = document.location.href;
     var idx = loc.indexOf('?');
@@ -36,12 +15,24 @@ $(document).ready(function(){
 
     // Load the language file
     $.getScript((lang || 'en') + '.js', function(){
-        $('body').css('direction', lang.direction);
-        $('#headline').html(lang.headline);
+        $('#menu td').each(function(){
+            var s = this.innerHTML;
+            var pid = jQuery(this).parents('table').attr('id');
+            jQuery(this).addClass(s).addClass(pid).click(function(){
+                var curJ = jQuery(this);
+                if(curJ.hasClass('types')){
+                    $('#types td').css('backgroundColor', 'blue');
+                    action = [s, action[1]];
+                } else if(curJ.hasClass('bys')){
+                    $('#byd td').css('backgroundColor', 'blue');
+                    action = [action[0], s];
+                }
+                curJ.css('backgroundColor', 'red');
+            });
+        });
+        $('body').css('direction', lang['direction']);
+        $('#headline').html(lang['headline']);
         $("#mainMenu").html('asd');
-
-        initMenu();
-        getMenu();
 /*
     var data = [];
     for(var i = 0; i < 334; i += 5)
@@ -50,4 +41,5 @@ $(document).ready(function(){
 
     $.plot($("#placeholder"), data);
 */
+    });
 });
