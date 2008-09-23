@@ -13,14 +13,22 @@ $(document).ready(function(){
 
     // Load the language file
     $.getScript((lang || 'en') + '.js', function(){
-        $('#menu td').each(function(){
-            var s = this.innerHTML;
+        $('body').css('direction', lang['direction']);
+        $('#tabMenu a').each(function(){
+            var curJ = jQuery(this);
+            var s = curJ.attr('href').substr(1);
+            curJ.children('span').text(lang[s]);
+        });
+        $('#tabMenu > ul').tabs();
+        if(lang['direction'] == 'rtl'){
+            $('.ui-tabs-nav').css('float', 'right');
+        }
+            /*
             jQuery(this).click(function(){
                 jQuery(this).css('backgroundColor', 'red').siblings('td').css('backgroundColor', 'white');
             });
         });
-        $('body').css('direction', lang['direction']);
         $('#headline').html(lang['headline']);
-        $("#mainMenu").html('asd');
+        $("#mainMenu").html('asd');*/
     });
 });
