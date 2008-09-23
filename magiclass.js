@@ -17,10 +17,13 @@ $(document).ready(function(){
     $.getScript((lang || 'en') + '.js', function(){
         $('#menu td').each(function(){
             var s = this.innerHTML;
-            var pid = jQuery(this).parents('table').attr('id');
-            jQuery(this).addClass(s).addClass(pid).click(function(){
+            jQuery(this).addClass(s).click(function(){
                 var curJ = jQuery(this);
-                if(curJ.hasClass('types')){
+                if(curJ.attr('class').substr(0, 2) == 'by'){
+                    action = [action[0], curJ];
+                }else{
+                    action = [curJ, action[1]];
+                }
                     $('#types td').css('backgroundColor', 'blue');
                     action = [s, action[1]];
                 } else if(curJ.hasClass('bys')){
