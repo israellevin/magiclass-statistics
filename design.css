@@ -1,0 +1,10 @@
+body, div.tab
+{
+    background-color: #fefef5
+}
+
+div.flot
+{
+    width: 600px;
+    height: 400px;
+}
