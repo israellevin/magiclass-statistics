@@ -3,25 +3,40 @@ var data;
 
 function setData()
 {
-    var d1 = [];
+    var sin = [];
     for (var i = 0; i < 14; i += 0.5)
-        d1.push([i, Math.sin(i)]);
-    var d2 = [[0, 3], [4, 8], [8, 5], [9, 13]];
-    var d3 = [[0, 12], [7, 12], null, [7, 2.5], [12, 2.5]];
-    data = [d1, d2, d3];
+        sin.push([i, Math.sin(i)]);
+
+    var d1 = {
+        data: sin,
+        label: 'sin with dots',
+        points: {show: true},
+        lines: {show: true},
+      }
+    var d2 = {data: [[0, 3], [4, 8], [8, 5], [9, 13]], label: 'bars', bars: {show: true}};
+    data = [d1, d2];
 }
 
-function setResizables()
+function setPrezGraph()
 {
-    $('#attendanceGraph').resizable({
+    $.plot(
+        $("#presentationsGraph"),
+        data,
+        {
+            selection: {
+                mode: "x",
+            },
+        }
+    );
+
+    $('#presentationsGraph').resizable({
 		minWidth: 100,
 		minHeight: 100,
         knobHandles: true,
         autoHide: true,
         stop: function(){
-            $.plot($("#attendanceGraph"), data);
-            $('#attendanceGraph').resizable('destroy');
-            setResizables();
+            $('#presentationsGraph').resizable('destroy');
+            setPrezGraph();
         },
 	});
 }
@@ -29,11 +44,17 @@ function setResizables()
 $(document).ready(function(){
 
     setData();
+    setPrezGraph();
 
-    $.plot($("#attendanceGraph"), data);
-
-    setResizables();
-
+    var placeholder = $('#presentationsGraph');
+    placeholder.bind("plotselected", function (event, ranges){
+        alert(1);
+/*        $("#selection").text(ranges.xaxis.from.toFixed(1) + " to " + ranges.xaxis.to.toFixed(1));
+        plot = $.plot(placeholder, data,
+        $.extend(true, {}, options, {
+            xaxis: { min: ranges.xaxis.from, max: ranges.xaxis.to }
+        }));*/
+    });
 
     // Get language from location params in the form "lang=xx"
     var loc = document.location.href;
