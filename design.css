@@ -1,6 +1,16 @@
 body, div.tab
 {
-    background-color: #fefef5
+    background-color: #fefef5;
+}
+
+td
+{
+    padding: 5px 30px 5px 30px;
+}
+
+table#attendanceTable tr.missed
+{
+    background-color: #ffd5c0;
 }
 
 div.flot

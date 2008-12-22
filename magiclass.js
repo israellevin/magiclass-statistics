@@ -1,82 +1,104 @@
+// Constants to be loaded from from external js files
 var lang;
-var data;
+var lessons = [];
+var classes = [];
+var students = [];
 
-function setData()
-{
-    var sin = [];
-    for (var i = 0; i < 14; i += 0.5)
-        sin.push([i, Math.sin(i)]);
+// Attendance data
+var attendance = {
+    full: [],
+    filtered: [],
+    byArrival: null,
+    byLesson: null,
+    bySince: null,
+    byUntil: null,
+    byClass: null,
+    byStudent: null
+};
 
-    var d1 = {
-        data: sin,
-        label: 'sin with dots',
-        points: {show: true},
-        lines: {show: true},
-      }
-    var d2 = {data: [[0, 3], [4, 8], [8, 5], [9, 13]], label: 'bars', bars: {show: true}};
-    data = [d1, d2];
-}
+attendance.addItem = function(date, lesson, cls, student, arrival) {
+    this.full.push({date: date, lesson: lesson, cls: cls, student: student, arrival: arrival});
+};
 
-function setPrezGraph()
-{
-    $.plot(
-        $("#presentationsGraph"),
-        data,
-        {
-            selection: {
-                mode: "x",
-            },
+attendance.filter = function(attr, val) {
+    if(typeof(val) == 'undefined') {
+        // Selection UI
+        this.filter(attr, prompt(attr + ' to what?'));
+    } else {
+        if(typeof(this[attr]) != 'undefined') {
+            if(this[attr] !== null) this.filtered = this.full.slice();
+            this[attr] = val;
+        } else if(attr == 'resetFilter') {
+            this.filtered = this.full.slice();
+            this.byArrival = this.byLesson = this.bySince = this.byUntil = this.byClass = this.byStudent = null;
         }
-    );
-/*
-    $('#presentationsGraph').resizable({
-		minWidth: 100,
-		minHeight: 100,
-        knobHandles: true,
-        autoHide: true,
-        stop: function(){
-            $('#presentationsGraph').resizable('destroy');
-            setPrezGraph();
-        },
-	});*/
+
+        var t = this.filtered.slice();
+        this.filtered = [];
+        var st = '';
+        for(idx in t) {
+            if(this.byArrival !== null && this.byArrival < 2);
+                    alert(this.byArrival);
+
+//                if((this.byArrival === 0) == (t[idx].arrival === null)) continue;
+            this.filtered.push(t[idx]);
+        }
+        draw();
+    }
 }
 
-$(document).ready(function(){
 
-    var placeholder = $('#presentationsGraph');
-    placeholder.bind("plotselected", function (event, ranges){
-        alert(1);
-/*        $("#selection").text(ranges.xaxis.from.toFixed(1) + " to " + ranges.xaxis.to.toFixed(1));
-        plot = $.plot(placeholder, data,
-        $.extend(true, {}, options, {
-            xaxis: { min: ranges.xaxis.from, max: ranges.xaxis.to }
-        }));*/
-    });
-
-    setData();
-    setPrezGraph();
-
+$(document).ready(function() {
     // Get language from location params in the form "lang=xx"
     var loc = document.location.href;
     var idx = loc.indexOf('?');
     var params = idx < 0 ? '' : loc.substr(++idx);
     params = params.split('&');
-    for(idx in params){
+    for(idx in params) {
         var pair = params[idx].split('=');
         if(pair.length == 2 && pair[0] == 'lang') lang = pair[1];
     }
 
     // Load the language file
-    $.getScript((lang || 'en') + '.js', function(){
-        $('body').css('direction', lang['direction']);
-        $('#tabMenu a').each(function(){
+    $.getScript((lang || 'en') + '.js', function() {
+        if(lang['direction']) {
+            $('body').css('direction', lang['direction']);
+            if(lang['direction'] == 'rtl') $('.ui-tabs-nav').css('float', 'right');
+        }
+        $('#tabMenu a').each(function() {
             var curJ = jQuery(this);
             var s = curJ.attr('href').substr(1);
-            curJ.children('span').text(lang[s]);
+            curJ.children('span').text(lang[s] || s);
         });
         $('#tabMenu > ul').tabs();
-        if(lang['direction'] == 'rtl'){
-            $('.ui-tabs-nav').css('float', 'right');
-        }
+        $('#attendanceTable th').each(function() {
+            this.textContent = lang[this.textContent] || this.textContent;
+        });
+    });
+
+    // Load the data
+    $.getScript('data.js', function() {
+        $('.filterDiv > div').each(function() {
+            var attr = this.innerHTML;
+            var cur = jQuery(this);
+            cur.text(lang[attr] || attr).click(function() {
+                attendance.filter(attr);
+            });
+        attendance.filter('resetFilter', true);
+        });
     });
 });
+
+function draw() {
+    var html = ''
+    for(idx in attendance.filtered) {
+        var curAtt = attendance.filtered[idx];
+        html += '<tr class="' + (curAtt.arrival ? 'attended' : 'missed') + '">';
+        html += '<td>' + curAtt.date + '</td>';
+        html += '<td>' + curAtt.lesson + '</td>';
+        html += '<td>' + curAtt.cls + '</td>';
+        html += '<td>' + students[curAtt.student].name + '</td>';
+        html += '</tr>';
+    }
+    $('#attendanceTable tbody').html(html);
+}

@@ -91,7 +91,6 @@
 }
 .ui-tabs-disabled {
     opacity: .4;
-    filter: alpha(opacity=40);
 }
 .ui-tabs-panel {
     clear: both;

@@ -8,6 +8,7 @@
         <link rel="stylesheet" type="text/css" href="design.css" />
         <script type="text/javascript" src="jquery-1.2.6.min.js"></script>
         <script type="text/javascript" src="jquery-ui-personalized-1.6rc2.min.js"></script>
+        <!--[if IE]><script language="javascript" type="text/javascript" src="excanvas.pack.js"></script><![endif]-->
         <script type="text/javascript" src="jquery.flot.js"></script>
         <script type="text/javascript" src="magiclass.js"></script>
     </head>
@@ -21,7 +22,29 @@
             </ul>
         </div>
         <div id="attendance" class="tab">
-            <div id="attendanceGraph" class="flot"></div>
+            <div>
+                <div class="filterDiv">
+                    <div class="resetF">resetFilter</div>
+                    <div class="favF">missingToday</div>
+                    <div class="favF">missingThisWeek</div>
+                    <div class="arrivalF">byArrival</div>
+                    <div class="lessonF">byLesson</div>
+                    <div class="dateF">bySince</div>
+                    <div class="dateF">byUntil</div>
+                    <div class="classF">byClass</div>
+                    <div class="studF">byStudent</div>
+                </div>
+                <table id="attendanceTable" class="dynTable">
+                    <thead>
+                        <tr>
+                            <th>date</th><th>lesson</th><th>cls</th><th>student</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+                <div id="pager"></div>
+            </div>
         </div>
         <div id="presentations" class="tab">
             <div id="presentationsGraph" class="flot"></div>
