@@ -28,7 +28,7 @@ function setPrezGraph()
             },
         }
     );
-
+/*
     $('#presentationsGraph').resizable({
 		minWidth: 100,
 		minHeight: 100,
@@ -38,13 +38,10 @@ function setPrezGraph()
             $('#presentationsGraph').resizable('destroy');
             setPrezGraph();
         },
-	});
+	});*/
 }
 
 $(document).ready(function(){
-
-    setData();
-    setPrezGraph();
 
     var placeholder = $('#presentationsGraph');
     placeholder.bind("plotselected", function (event, ranges){
@@ -55,6 +52,9 @@ $(document).ready(function(){
             xaxis: { min: ranges.xaxis.from, max: ranges.xaxis.to }
         }));*/
     });
+
+    setData();
+    setPrezGraph();
 
     // Get language from location params in the form "lang=xx"
     var loc = document.location.href;
