@@ -21,32 +21,33 @@ attendance.addItem = function(date, lesson, cls, student, arrival) {
 };
 
 attendance.filter = function(attr, val) {
-    if(typeof(val) == 'undefined') {
+    if(attr == 'resetFilter') {
+            this.filtered = this.full.slice();
+            this.byArrival = this.byLesson = this.bySince = this.byUntil = this.byClass = this.byStudent = null;
+    } else if(typeof(val) == 'undefined') {
         // Selection UI
         this.filter(attr, prompt(attr + ' to what?'));
+        return;
     } else {
         if(typeof(this[attr]) != 'undefined') {
             if(this[attr] !== null) this.filtered = this.full.slice();
             this[attr] = val;
-        } else if(attr == 'resetFilter') {
-            this.filtered = this.full.slice();
-            this.byArrival = this.byLesson = this.bySince = this.byUntil = this.byClass = this.byStudent = null;
         }
-
-        var t = this.filtered.slice();
-        this.filtered = [];
-        var st = '';
-        for(idx in t) {
-            if(this.byArrival !== null && this.byArrival < 2);
-                    alert(this.byArrival);
-
-//                if((this.byArrival === 0) == (t[idx].arrival === null)) continue;
-            this.filtered.push(t[idx]);
-        }
-        draw();
     }
-}
 
+    var t = this.filtered.slice();
+    this.filtered = [];
+    for(idx in t) {
+        if((this.byArrival !== null) && ((this.byArrival === '0') == (t[idx].arrival !== null))) continue;
+        if((this.byLesson !== null) && (this.byLesson != t[idx].lesson)) continue;
+        if((this.bySince !== null) && (this.bySince > t[idx].date)) continue;
+        if((this.byUntil !== null) && (this.byUntil < t[idx].date)) continue;
+        if((this.byClass !== null) && (this.byClass != t[idx].cls)) continue;
+        if((this.byStudent !== null) && (this.byStudent != students[t[idx].student].id)) continue;
+        this.filtered.push(t[idx]);
+    }
+    draw();
+}
 
 $(document).ready(function() {
     // Get language from location params in the form "lang=xx"
@@ -63,7 +64,9 @@ $(document).ready(function() {
     $.getScript((lang || 'en') + '.js', function() {
         if(lang['direction']) {
             $('body').css('direction', lang['direction']);
-            if(lang['direction'] == 'rtl') $('.ui-tabs-nav').css('float', 'right');
+            if(lang['direction'] == 'rtl') {
+                $('#tabMenu li, div.filterDiv').css('float', 'right');
+            }
         }
         $('#tabMenu a').each(function() {
             var curJ = jQuery(this);
@@ -83,17 +86,22 @@ $(document).ready(function() {
             var cur = jQuery(this);
             cur.text(lang[attr] || attr).click(function() {
                 attendance.filter(attr);
+            }).hover(function() {
+                jQuery(this).addClass('filterHover');
+            }, function() {
+                jQuery(this).removeClass('filterHover');
             });
-        attendance.filter('resetFilter', true);
+        attendance.filter('resetFilter');
         });
     });
 });
 
 function draw() {
-    var html = ''
+    var html = '';
+    var even = false;
     for(idx in attendance.filtered) {
         var curAtt = attendance.filtered[idx];
-        html += '<tr class="' + (curAtt.arrival ? 'attended' : 'missed') + '">';
+        html += '<tr class="' + (curAtt.arrival ? 'attended' : 'missed') + ((even = !even) ? '1' : '2') + '">';
         html += '<td>' + curAtt.date + '</td>';
         html += '<td>' + curAtt.lesson + '</td>';
         html += '<td>' + curAtt.cls + '</td>';

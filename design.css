@@ -1,6 +1,57 @@
-body, div.tab
+html
 {
-    background-color: #fefef5;
+    background-color: #fffdf7;
+}
+
+body
+{
+    margin: 0px;
+    background-color: white;
+}
+
+div.tab
+{
+    background-color: #fffdf7;
+}
+
+div#tabMenu
+{
+    padding-top: 5px;
+}
+
+div.filterDiv
+{
+    float: left;
+    cursor: pointer;
+}
+
+div.filterHover
+{
+    background-color: red;
+}
+
+div.filterDiv div
+{
+    padding: 10px;
+    margin: 10px;
+}
+
+table
+{
+    border-collapse: collapse;
+    width: 70%;
+}
+
+thead
+{
+    float: top;
+}
+
+tbody
+{
+    height: 400px;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 td
@@ -8,9 +59,24 @@ td
     padding: 5px 30px 5px 30px;
 }
 
-table#attendanceTable tr.missed
+table#attendanceTable tr.attended1
+{
+    background-color: #f9fff9;
+}
+
+table#attendanceTable tr.attended2
+{
+    background-color: #f9fcf9;
+}
+
+table#attendanceTable tr.missed1
 {
     background-color: #ffd5c0;
+}
+
+table#attendanceTable tr.missed2
+{
+    background-color: #ffc5c0;
 }
 
 div.flot
