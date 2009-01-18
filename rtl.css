@@ -1,0 +1,16 @@
+div#tabMenu li, div.filterDiv
+{
+    float: right;
+}
+
+div.tab th, div.tab td
+{
+    text-align: right;
+}
+
+div.tab td
+{
+    padding-right: 1em;
+    padding-left: 5em;
+}
+

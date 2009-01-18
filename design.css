@@ -16,47 +16,52 @@ div.tab
 
 div#tabMenu
 {
-    padding-top: 5px;
+    padding-top: 1em;
 }
 
 div.filterDiv
 {
     float: left;
     cursor: pointer;
+    height: 30em;
 }
 
-div.filterHover
+td.filterHover
 {
-    background-color: red;
-}
-
-div.filterDiv div
-{
-    padding: 10px;
-    margin: 10px;
+    background-color: yellow;
+    color: black;
 }
 
 table
 {
     border-collapse: collapse;
-    width: 70%;
 }
 
-thead
+div.tab th
 {
-    float: top;
+    padding-bottom: 0.5em;
+    border-bottom: 1px solid black;
+    text-align: left;
 }
 
-tbody
+div.tab td
 {
-    height: 400px;
+    padding-right: 5em;
+    padding-left: 1em;
+    padding-top: 0.25em;
+    padding-bottom: 0.25em;
+}
+
+table#filterTable
+{
+    height: 100%;
+}
+
+table#attendanceTable tbody
+{
+    height: 30em;
     overflow-y: auto;
     overflow-x: hidden;
-}
-
-td
-{
-    padding: 5px 30px 5px 30px;
 }
 
 table#attendanceTable tr.attended1
@@ -77,6 +82,12 @@ table#attendanceTable tr.missed1
 table#attendanceTable tr.missed2
 {
     background-color: #ffc5c0;
+}
+
+table#attendanceTable tr.studRowHover
+{
+    background-color: yellow;
+    color: black;
 }
 
 div.flot

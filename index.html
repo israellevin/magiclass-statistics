@@ -5,9 +5,11 @@
         <title>Magiclass Reports</title>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <link rel="stylesheet" type="text/css" href="ui.tabs.css" />
+        <link rel="stylesheet" type="text/css" href="date_input.css" />
         <link rel="stylesheet" type="text/css" href="design.css" />
         <script type="text/javascript" src="jquery-1.2.6.min.js"></script>
         <script type="text/javascript" src="jquery-ui-personalized-1.6rc2.min.js"></script>
+        <script type="text/javascript" src="jquery.date_input.js"></script>
         <!--[if IE]><script language="javascript" type="text/javascript" src="excanvas.pack.js"></script><![endif]-->
         <script type="text/javascript" src="jquery.flot.js"></script>
         <script type="text/javascript" src="magiclass.js"></script>
@@ -23,15 +25,17 @@
         </div>
         <div id="attendance" class="tab">
             <div class="filterDiv">
-                <div class="resetF">resetFilter</div>
-                <div class="favF">missingToday</div>
-                <div class="favF">missingThisWeek</div>
-                <div class="arrivalF">byArrival</div>
-                <div class="lessonF">byLesson</div>
-                <div class="dateF">bySince</div>
-                <div class="dateF">byUntil</div>
-                <div class="classF">byClass</div>
-                <div class="studF">byStudent</div>
+                <table id="filterTable">
+                    <tr><td id="resetFilter"></td></tr>
+                    <tr><td id="missingToday"></td></tr>
+                    <tr><td id="missingThisWeek"></td></tr>
+                    <tr><td id="byArrival"></td></tr>
+                    <tr><td id="byLesson"></td></tr>
+                    <tr><td id="bySince"></td></tr>
+                    <tr><td id="byUntil"></td></tr>
+                    <tr><td id="byClass"></td></tr>
+                    <tr><td id="byStudent"></td></tr>
+                </table>
             </div>
             <table id="attendanceTable">
                 <thead>
