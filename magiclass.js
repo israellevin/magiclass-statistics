@@ -3,29 +3,6 @@ var jQuery = this.jQuery;
 var $ = this.$;
 var prompt = this.window.prompt;
 
-// Draws data
-function draw() {
-    var html = '';
-    var even = false;
-    for(var idx in attendance.filtered) {
-        if(attendance.filtered[idx].hasOwnProperty('date')) {
-        var curAtt = attendance.filtered[idx];
-        html += '<tr class="' + (curAtt.arrival ? 'attended' : 'missed') + ((even = !even) ? '1' : '2') + '">';
-        html += '<td>' + curAtt.date + '</td>';
-        html += '<td>' + curAtt.lesson + '</td>';
-        html += '<td>' + curAtt.cls + '</td>';
-        html += '<td>' + students[curAtt.student].name + '</td>';
-        html += '</tr>';
-        }
-    }
-    $('#attendanceTable tbody').html(html);
-    $('#attendanceTable tbody tr').hover(function() {
-        jQuery(this).addClass('studRowHover');
-    }, function() {
-        jQuery(this).removeClass('studRowHover');
-    });
-}
-
 // Constants to be loaded from from external js files
 var lang;
 var lessons = [];
@@ -44,40 +21,58 @@ var attendance = {
     byStudent: null
 };
 
+// Draw data and filter UI
+function draw() {
+    var html = '';
+    var even = false;
+    for(var idx in attendance.filtered) {
+        if(attendance.filtered[idx].hasOwnProperty('date')) {
+            var curAtt = attendance.filtered[idx];
+            html += '<tr class="' + (curAtt.arrival ? 'attended' : 'missed') + ((even = !even) ? '1' : '2') + '">';
+            html += '<td>' + curAtt.date + '</td>';
+            html += '<td>' + curAtt.lesson + '</td>';
+            html += '<td>' + curAtt.cls + '</td>';
+            html += '<td>' + students[curAtt.student].name + '</td>';
+            html += '</tr>';
+        }
+    }
+    $('#attendanceTable tbody').html(html);
+    $('#attendanceTable tbody tr').hover(function() {
+        jQuery(this).addClass('studRowHover');
+    }, function() {
+        jQuery(this).removeClass('studRowHover');
+    });
+
+    // Draw filter UI
+    if(
+        (attendance.byArrival != '-1') ||
+        (attendance.byLesson.length < 6) ||
+        (attendance.byClass.length < 5)
+    ) $('#resetFilter').addClass('filterActive');
+    else $('#resetFilter').removeClass('filterActive');
+
+//    var j = $('');
+//    for(idx in 
+}
+
 attendance.addItem = function(date, lesson, cls, student, arrival) {
     this.full.push({date: date, lesson: lesson, cls: cls, student: student, arrival: arrival});
 };
 
-attendance.filter = function(attr, val) {
-    if(attr == 'resetFilter') {
-            this.filtered = this.full.slice();
-            this.byArrival = this.byLesson = this.bySince = this.byUntil = this.byClass = this.byStudent = null;
-            $('#resetFilter').date_input();
-    } else if(attr == 'missingToday') {
-            this.filtered = this.full.slice();
-            this.byArrival = "0";
-            this.bySince = this.byUntil = 
-            this.byLesson = this.byClass = this.byStudent = null;
-    } else if(typeof(val) == 'undefined') {
-        // Selection UI
-        this.filter(attr, prompt(attr + ' to what?'));
-        return;
-    } else {
-        if(typeof(this[attr]) != 'undefined') {
-            if(this[attr] !== null) { this.filtered = this.full.slice(); }
-            this[attr] = val;
-        }
-    }
+attendance.filter = function() {
+    this.byArrival = $('#byArrival input:radio[@name="byArrival"]:checked').val();
+    this.byLesson = $('#byLesson select').val();
+    this.byClass = $('#byClass select').val();
 
-    var t = this.filtered.slice();
+    var t = this.full.slice();
     this.filtered = [];
     for(var idx in t) { if(t[idx].hasOwnProperty('date')) {
         if(!t[idx].date) { continue; }
-        if((this.byArrival !== null) && ((this.byArrival === '0') == (t[idx].arrival !== null))) { continue; }
-        if((this.byLesson !== null) && (this.byLesson != t[idx].lesson)) { continue; }
+        if((this.byArrival !== null) && (this.byArrival !== '-1') && ((this.byArrival === '0') == (t[idx].arrival !== null))) { continue; }
+        if((this.byLesson !== null) && (jQuery.inArray("" + t[idx].lesson, this.byLesson) == -1)) { continue; }
         if((this.bySince !== null) && (this.bySince > t[idx].date)) { continue; }
         if((this.byUntil !== null) && (this.byUntil < t[idx].date)) { continue; }
-        if((this.byClass !== null) && (this.byClass != t[idx].cls)) { continue; }
+        if((this.byClass !== null) && (jQuery.inArray("" + t[idx].cls, this.byClass) == -1)) { continue; }
         if((this.byStudent !== null) && (this.byStudent != students[t[idx].student].id)) { continue; }
         this.filtered.push(t[idx]);
     }}
@@ -90,15 +85,14 @@ $(document).ready(function() {
     var idx = loc.indexOf('?');
     var params = idx < 0 ? '' : loc.substr(++idx);
     params = params.split('&');
-    for(idx in params) { if(params[idx].hasOwnProperty('split')) {
+    for(idx in params) { if(params[idx].hasOwnProperty('0')) {
         var pair = params[idx].split('=');
         if(pair.length == 2 && pair[0] == 'lang') { lang = pair[1]; }
     }}
 
     // Load the language file
-    $.getScript((lang || 'en') + '.js', function() {
+    $.getScript('data/' + (lang || 'en') + '.js', function() {
         if(lang.direction) {
-            $('body').css('direction', lang.direction);
             if(lang.direction == 'rtl') {
                 $('head').append('<link rel="stylesheet" type="text/css" href="rtl.css" />');
             }
@@ -115,18 +109,30 @@ $(document).ready(function() {
     });
 
     // Load the data
-    $.getScript('data.js', function() {
-        $('.filterDiv td').each(function() {
-            var attr = this.id;
-            var cur = jQuery(this);
-            cur.text(lang[attr] || attr).click(function() {
-                attendance.filter(attr);
-            }).hover(function() {
-                jQuery(this).addClass('filterHover');
-            }, function() {
-                jQuery(this).removeClass('filterHover');
-            });
-        });
-        $('#resetFilter').trigger('click');
+    $.getScript('data/data.js', function() {
+        attendance.filter();
+    });
+
+    $('#filterTable tr').click(function() {
+        attendance.filter();
+    }).hover(function() {
+        jQuery(this).addClass('filterHover');
+    }, function() {
+        jQuery(this).removeClass('filterHover');
+    });
+
+    $('#byLesson select').change(function() {
+        attendance.filter();
+    });
+
+    $('#byClass select').change(function() {
+        attendance.filter();
+    });
+
+    $('#resetFilter').click(function() {
+        $('#byArrival input:radio[@name="byArrival"]:first')[0].checked = true;
+        $('#byLesson option').attr('selected', 'selected');
+        $('#byClass option').attr('selected', 'selected');
+        attendance.filter();
     });
 });

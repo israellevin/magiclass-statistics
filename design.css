@@ -26,10 +26,20 @@ div.filterDiv
     height: 30em;
 }
 
-td.filterHover
+div.filterDiv tr.filterHover
 {
-    background-color: yellow;
-    color: black;
+    background-color: #ffffaa;
+    color: red;
+}
+
+div.filterDiv tr.filterActive
+{
+    background-color: #eeffee;
+}
+
+div.filterDiv td
+{
+    padding-right: 1em;
 }
 
 table
@@ -44,17 +54,17 @@ div.tab th
     text-align: left;
 }
 
-div.tab td
+table#filterTable
+{
+    height: 100%;
+}
+
+table#attendanceTable td
 {
     padding-right: 5em;
     padding-left: 1em;
     padding-top: 0.25em;
     padding-bottom: 0.25em;
-}
-
-table#filterTable
-{
-    height: 100%;
 }
 
 table#attendanceTable tbody
@@ -71,7 +81,7 @@ table#attendanceTable tr.attended1
 
 table#attendanceTable tr.attended2
 {
-    background-color: #f9fcf9;
+    background-color: #f9f9f9;
 }
 
 table#attendanceTable tr.missed1
@@ -84,10 +94,10 @@ table#attendanceTable tr.missed2
     background-color: #ffc5c0;
 }
 
-table#attendanceTable tr.studRowHover
+table#attendanceTable tr.studRowHover td
 {
-    background-color: yellow;
-    color: black;
+    color: #f9fff9;
+    background-color: #060006;
 }
 
 div.flot

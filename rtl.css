@@ -1,3 +1,8 @@
+body
+{
+    direction: rtl;
+}
+
 div#tabMenu li, div.filterDiv
 {
     float: right;

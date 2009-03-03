@@ -1,0 +1,21 @@
+lang = {
+    direction: 'rtl',
+    headline: 'מערכת דו"חות',
+    attendance: 'נוכחות',
+    presentations: 'מצגות',
+    tests: 'מבחנים',
+    feedback: 'משוב',
+    resetFilter: 'אפס סינון',
+    missingToday: 'נעדרים היום',
+    missingThisWeek: 'נעדרים השבוע',
+    byArrival: 'נוכחים, נעדרים או שניהם',
+    byLesson: 'שעורים',
+    bySince: 'מתאריך',
+    byUntil: 'עד תאריך',
+    byClass: 'כתות',
+    byStudent: 'תלמידים',
+    date: 'תאריך',
+    lesson: 'שעור',
+    cls: 'כתה',
+    student: 'תלמיד'
+}    

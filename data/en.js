@@ -1,0 +1,21 @@
+lang = {
+    direction: 'ltr',
+    headline: 'Reports System',
+    attendance: 'Attendance',
+    presentations: 'Presentations',
+    tests: 'Tests',
+    feedback: 'Feedback',
+    resetFilter: 'Reset Filter',
+    missingToday: 'Missing Today',
+    missingThisWeek: 'Missing This Week',
+    byArrival: 'Arrival',
+    byLesson: 'Lesson',
+    bySince: 'Since',
+    byUntil: 'Until',
+    byClass: 'Class',
+    byStudent: 'Students',
+    date: 'Date',
+    lesson: 'Lesson',
+    cls: 'Class',
+    student: 'Student'
+}    
