@@ -1,107 +1,69 @@
-html
-{
-    background-color: #fffdf7;
+html, body {
+	margin:0;
+	padding:0;
+	height:100%;
+    background-color: #2e95a3;
+    background-color: #50b8b4;
+    background-color: #c6fffa;
+    background-color: #d6e055;
+    background-color: #e2ffa8;
 }
 
-body
+div#all
 {
-    margin: 0px;
-    background-color: white;
+    background-color: #50b8b4;
+    position: relative;
+    height:auto !important;
+	height:100%;
+	min-height:100%;
 }
 
-div.tab
+div#header
 {
-    background-color: #fffdf7;
+    background-color: #e2ffa8;
+    position: absolute;
+    top: 0px;
+    min-height: 3em;
+    width: 100%;
+    font-size: 20px;
 }
 
-div#tabMenu
+    span#logo
+    {
+        padding: 0em 3em 0em 3em;
+        float: left;
+    }
+
+div#content
 {
-    padding-top: 1em;
+    background-color: #50b8b4;
+    padding: 5em 0em 3em 0em;
+    overflow: auto;
 }
 
-div.filterDiv
-{
-    float: left;
-    cursor: pointer;
-    height: 30em;
-}
+    div#panel
+    {
+        background-color: #c6fffa;
+        width: 30%;
+        margin: 1em;
+        padding: 1em;
+        display: inline;
+    }
 
-div.filterDiv tr.filterHover
-{
-    background-color: #ffffaa;
-    color: red;
-}
+    div#data
+    {
+        background-color: #c6fffa;
+        width: 70%;
+        margin: 1em;
+        padding: 1em;
+        display: inline;
+    }
 
-div.filterDiv tr.filterActive
+div#footer
 {
-    background-color: #eeffee;
-}
-
-div.filterDiv td
-{
-    padding-right: 1em;
-}
-
-table
-{
-    border-collapse: collapse;
-}
-
-div.tab th
-{
-    padding-bottom: 0.5em;
-    border-bottom: 1px solid black;
-    text-align: left;
-}
-
-table#filterTable
-{
-    height: 100%;
-}
-
-table#attendanceTable td
-{
-    padding-right: 5em;
-    padding-left: 1em;
-    padding-top: 0.25em;
-    padding-bottom: 0.25em;
-}
-
-table#attendanceTable tbody
-{
-    height: 30em;
-    overflow-y: auto;
-    overflow-x: hidden;
-}
-
-table#attendanceTable tr.attended1
-{
-    background-color: #f9fff9;
-}
-
-table#attendanceTable tr.attended2
-{
-    background-color: #f9f9f9;
-}
-
-table#attendanceTable tr.missed1
-{
-    background-color: #ffd5c0;
-}
-
-table#attendanceTable tr.missed2
-{
-    background-color: #ffc5c0;
-}
-
-table#attendanceTable tr.studRowHover td
-{
-    color: #f9fff9;
-    background-color: #060006;
-}
-
-div.flot
-{
-    width: 600px;
-    height: 400px;
+    background-color: #e2ffa8;
+    position: absolute;
+    bottom: 0px;
+    min-height: 3em;
+    width: 100%;
 }

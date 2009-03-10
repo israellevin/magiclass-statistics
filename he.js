@@ -1,0 +1,23 @@
+lang = {
+    direction: 'rtl',
+    title: 'מערכת דו"חות נוכחות',
+    footext: '(c) - מאג\'יקלאס בע"מ',
+    dailyReport: 'דו"ח יומי - כלל בית-ספרי',
+    attendance: 'נוכחות',
+    presentations: 'מצגות',
+    tests: 'מבחנים',
+    feedback: 'משוב',
+    resetFilter: 'אפס סינון',
+    missingToday: 'נעדרים היום',
+    missingThisWeek: 'נעדרים השבוע',
+    byArrival: 'נוכחים, נעדרים או שניהם',
+    byLesson: 'שעורים',
+    bySince: 'מתאריך',
+    byUntil: 'עד תאריך',
+    byClass: 'כתות',
+    byStudent: 'תלמידים',
+    date: 'תאריך',
+    lesson: 'שעור',
+    cls: 'כתה',
+    student: 'תלמיד'
+}    

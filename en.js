@@ -1,0 +1,23 @@
+lang = {
+    direction: 'ltr',
+    title: 'Attendance Reports System',
+    footext: '(c) 2008 - Magiclass ltd.',
+    dailyReport: 'Daily report - entire school',
+    attendance: 'Attendance',
+    presentations: 'Presentations',
+    tests: 'Tests',
+    feedback: 'Feedback',
+    resetFilter: 'Reset Filter',
+    missingToday: 'Missing Today',
+    missingThisWeek: 'Missing This Week',
+    byArrival: 'Arrival',
+    byLesson: 'Lesson',
+    bySince: 'Since',
+    byUntil: 'Until',
+    byClass: 'Class',
+    byStudent: 'Students',
+    date: 'Date',
+    lesson: 'Lesson',
+    cls: 'Class',
+    student: 'Student'
+}    
