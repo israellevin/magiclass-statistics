@@ -3,7 +3,19 @@
     direction: rtl;
 }
 
-span#logo
+img#logo
 {
     float: right;
+}
+
+table.dTable th span
+{
+    padding-right: 0em;
+    padding-left: 1em;
+}
+
+table.dTable td, th
+{
+    padding: 0em 1em 0em 0em;
+    text-align: right;
 }

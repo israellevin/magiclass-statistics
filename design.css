@@ -9,9 +9,24 @@ html, body {
     background-color: #e2ffa8;
 }
 
+table
+{
+    border-collapse: collapse;
+}
+
+input[type="text"]
+{
+    font-family: Arial, Sans-Serif;
+    font-size: 13px;
+    width: 7em;
+    display: block;
+    background-color: #ffffff;
+    color: #2e95a3;
+}
+
 div#all
 {
-    background-color: #50b8b4;
+    background-color: #2e95a3;
     position: relative;
     height:auto !important;
 	height:100%;
@@ -28,7 +43,7 @@ div#header
     font-size: 20px;
 }
 
-    span#logo
+    img#logo
     {
         padding: 0em 3em 0em 3em;
         float: left;
@@ -36,14 +51,13 @@ div#header
 
 div#content
 {
-    background-color: #50b8b4;
+    background-color: #2e95a3;
     padding: 5em 0em 3em 0em;
     overflow: auto;
 }
 
     div#panel
     {
-        background-color: #c6fffa;
         width: 30%;
         margin: 1em;
         padding: 1em;
@@ -53,10 +67,8 @@ div#content
     div#data
     {
         background-color: #c6fffa;
-        width: 70%;
         margin: 1em;
         padding: 1em;
-        display: inline;
     }
 
 div#footer
@@ -66,4 +78,42 @@ div#footer
     bottom: 0px;
     min-height: 3em;
     width: 100%;
+}
+
+table.dTable
+{
+    width: 100%;
+}
+
+table.dTable tbody
+{
+    height: 20em;
+    overflow: auto;
+}
+
+table.dTable tbody tr
+{
+    background-color: #8bd8d7;
+}
+
+table.dTable tbody tr.altRow
+{
+    background-color: #c6fffa;
+}
+
+table.dTable th
+{
+    border-bottom: 1px solid black;
+}
+
+table.dTable th span
+{
+    padding-left: 0em;
+    padding-right: 1em;
+}
+
+table.dTable td, th
+{
+    padding: 0em 0em 0em 1em;
+    text-align: left;
 }
