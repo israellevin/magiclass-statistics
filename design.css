@@ -80,7 +80,7 @@ table.dTable tbody
     overflow-x: hidden;
 }
 
-table.dTable th
+:able.dTable th
 {
     border-bottom: 1px solid black;
 }
@@ -95,4 +95,9 @@ table.dTable td, th
 {
     padding: 0em 0em 0em 1em;
     text-align: left;
+}
+
+div.ui-datepicker
+{
+    top: 0px;
 }

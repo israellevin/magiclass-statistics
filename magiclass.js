@@ -121,6 +121,8 @@ $(document).ready(function() {
         if(pair.length == 2 && pair[0] == 'lang') { lang = pair[1]; }
     }};
 
+    $('#tabs').tabs();
+
     // Bind date pickers
     $('.datepicker').datepicker({
         changeMonth: true,
