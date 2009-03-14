@@ -324,7 +324,7 @@ students.push({id: '239565270', name: 'Pumb Umin', classes: [0, 3]});
 students.push({id: '033213554', name: 'Israel Levin', classes: [0, 3]});
 students.push({id: '521453600', name: 'שם בעברית', classes: [0, 3]});
 
-for(var idx = 0; idx < 1000; idx++) {
+for(var idx = 0; idx < 5000; idx++) {
     attendance.push({
         date: mkDate(),
         lesson: rnd(lessons.length),

@@ -9,10 +9,15 @@ var students = [];
 // Helper functions
 function rnd(max) { return Math.floor(Math.random() * max) }
 function mkDate() {
-    var d = new Date();
-    d.setDate(d.getDate() - rnd(5));
+    var d;
+    if(rnd(90) == 0) d = new Date(2008, 9, 19);
+    else {
+        d = new Date();
+        d.setDate(d.getDate() - rnd(180));
+    }
     return d;
 }
+function pad(n) { n = n.toString(); return n.length == 1 ? '0' + n : n; }
 
 // Attendance data
 var attendance = {
@@ -50,29 +55,39 @@ attendance.xhtmlize = function() {
             if((attendance.current - this.date < 1000 * 60 * 60 * 24) && (attendance.current.getDate() == this.date.getDate())) missAt.push(this);
         });
 
-        xhtml += '<tr><td></td><td>' + idn + '</td><td>' + name + '</td><td>' + missAt.length + '</td><td>' + missSince.length + '</td>';
+        if(missAt.length > 0) {
+            xhtml += '<tr><td></td><td>' + idn + '</td><td>' + name + '</td><td>' + missAt.length + '</td><td>' + missSince.length + '<p style="display: none;"><span style="font-weight: bold;">' + name + '</span><br/>';
+            jQuery.each(missSince.slice(0, 10), function(key, val) {
+                xhtml += pad(val.date.getMonth() + 1) + '/' + pad(val.date.getDate() + 1) + ' - ' + lessons[val.lesson] + '<br/>';
+            });
+            xhtml += '</p></td></tr>';
+        }
     });
-
-    $('table.dTable tbody').html(xhtml); 
+    $('table.dTable tbody').html(xhtml);
 
     // Fix table sorter
     $('table.dTable').trigger('update');
     if($('table.dTable tr:visible').length > 2) $('table.dTable').trigger('sorton', false); 
 
-    // Bind tooltips
-    $('table.dTable tr').each(function() {
-        jQuery(this).find('td').eq(3).hover(function(e) {
+    // Hilite tr
+    $('table.dTable tbody tr').hover(function(e) {
+        jQuery(this).find('td').css('color', 'red');
+    }, function() {
+        jQuery(this).find('td').css('color', 'black');
 
-            $("body").append("<p id='tooltip'>lalalala</p>");
-            $("#tooltip")
-                .css("top",(e.pageY - 10) + "px")
-                .css("left",(e.pageX + 10) + "px")
-                .fadeIn("fast");		
+    // Bind tooltips
+    }).each(function() {
+        jQuery(this).find('td').eq(4).hover(function(e) {
+            var t = jQuery(this).find('p').html();
+            $('body').append('<p id="tooltip">' + t + '</p>');
+            $('#tooltip')
+                .css('top',(e.pageY - 10) + 'px')
+                .css('left',(e.pageX + 10) + 'px')
+                .fadeIn('slow');		
         }, function(e) {
-            $("#tooltip").remove();
+            $('#tooltip').remove();
         }).mousemove(function(e) {
-    		$("#tooltip").css("top",(e.pageY - 10) + "px").css("left",(e.pageX + 10) + "px");
-        }).end().eq(4).click(function(e) {
+    		$('#tooltip').css('top',(e.pageY - 10) + 'px').css('left',(e.pageX + 10) + 'px');
         });
     });
 };

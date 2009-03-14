@@ -2,6 +2,7 @@ html, body {
 	margin:0;
 	padding:0;
 	height:100%;
+    font-size: 14px;
 }
 
 table
@@ -56,6 +57,11 @@ table.dTable tbody
     overflow-x: hidden;
 }
 
+table.dTable tr
+{
+    height: 1.5em;
+}
+
 table.dTable th span
 {
     padding-left: 0em;
@@ -68,7 +74,6 @@ table.dTable td, th
     text-align: left;
 }
 
-
 div.ui-datepicker
 {
     top: 0px;
@@ -79,7 +84,6 @@ div.ui-datepicker
     padding: 0px;
 }
 
-
 #tooltip{
 	position:absolute;
 	border:1px solid #333;
@@ -87,4 +91,6 @@ div.ui-datepicker
 	padding:2px 5px;
 	color:#333;
 	display:none;
-	}	
+    font-size: 12px;
+    font-family: Monospace;
+}	
