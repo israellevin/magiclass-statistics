@@ -602,10 +602,12 @@
 						cache = buildCache(this);
 						
 					}).bind("sorton",function(e,list) {
-						
+
 						$(this).trigger("sortStart");
 						
+                        if(list) {
 						config.sortList = list;
+                        }
 						
 						// update and store the sortlist
 						var sortList = config.sortList;

@@ -20,7 +20,7 @@ var attendance = {
     byStud: [],
     current: new Date(),
     semStart: new Date(2008, 8, 1),
-    name: false
+    name: false,
 };
 
 attendance.push = function(line) {
@@ -55,9 +55,8 @@ attendance.xhtmlize = function() {
         });
     $('#data tbody').html(xhtml);
 
-        $("table").trigger("update"); 
-
-
+    $("table").trigger("update"); 
+    $("table").trigger("sorton", false); 
 };
 
 function translate(dlang, callback) {
@@ -163,8 +162,7 @@ $(document).ready(function() {
 
             // Make tables sortable
             $('.dTable').tablesorter({ 
-                sortList: [[0,0]],
-                //debug: true,
+                sortList: [[2,0]],
                 headers: { '0': { sorter: false } }
             }); 
 
