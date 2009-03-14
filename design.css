@@ -2,11 +2,6 @@ html, body {
 	margin:0;
 	padding:0;
 	height:100%;
-    background-color: #2e95a3;
-    background-color: #50b8b4;
-    background-color: #c6fffa;
-    background-color: #d6e055;
-    background-color: #e2ffa8;
 }
 
 table
@@ -20,13 +15,10 @@ input[type="text"]
     font-size: 13px;
     width: 7em;
     display: block;
-    background-color: #ffffff;
-    color: #2e95a3;
 }
 
 div#all
 {
-    background-color: #2e95a3;
     position: relative;
     height:auto !important;
 	height:100%;
@@ -35,7 +27,6 @@ div#all
 
 div#header
 {
-    background-color: #e2ffa8;
     position: absolute;
     top: 0px;
     min-height: 3em;
@@ -51,7 +42,6 @@ div#header
 
 div#content
 {
-    background-color: #2e95a3;
     padding: 5em 0em 3em 0em;
     overflow: auto;
 }
@@ -66,14 +56,12 @@ div#content
 
     div#data
     {
-        background-color: #c6fffa;
         margin: 1em;
         padding: 1em;
     }
 
 div#footer
 {
-    background-color: #e2ffa8;
     position: absolute;
     bottom: 0px;
     min-height: 3em;
@@ -88,17 +76,8 @@ table.dTable
 table.dTable tbody
 {
     height: 20em;
-    overflow: auto;
-}
-
-table.dTable tbody tr
-{
-    background-color: #8bd8d7;
-}
-
-table.dTable tbody tr.altRow
-{
-    background-color: #c6fffa;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 table.dTable th

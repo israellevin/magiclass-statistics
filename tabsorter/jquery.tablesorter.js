@@ -351,7 +351,6 @@
 				var c = table.config.widgets;
 				var l = c.length;
 				for(var i=0; i < l; i++) {
-					
 					getWidgetById(c[i]).format(table);
 				}
 				
@@ -843,6 +842,16 @@
 	});
 	
 	// add default widgets
+	ts.addWidget({
+		id: "idx",
+		format: function(table) {
+            var idx = 0;
+			$("tr:visible",table.tBodies[0]).each(function() {
+                this.firstChild.innerHTML = ++idx;
+            });
+		}
+	});	
+
 	ts.addWidget({
 		id: "zebra",
 		format: function(table) {

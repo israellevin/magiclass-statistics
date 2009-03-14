@@ -35,15 +35,14 @@ attendance.push = function(line) {
 
 attendance.xhtmlize = function() {
     var xhtml = '';
-    var idx = 0;
     jQuery.each(this.byStud, function(key, val) {
         var student = students[key];
         var idn = student.id;
         var i = $('#idNumInp').val();
-        if((i.length > 2) && (idn.indexOf(i) == -1)) return true;
+        if((i.length > 0) && (idn.indexOf(i) == -1)) return true;
         var name = student.name;
         var i = $('#studNameInp').val().toLowerCase();
-        if((i.length > 2) && (name.toLowerCase().indexOf(i) == -1)) return true;
+        if((i.length > 0) && (name.toLowerCase().indexOf(i) == -1)) return true;
         var missAt = [];
         var missSince = [];
         jQuery.each(this, function(key, val) {
@@ -51,12 +50,12 @@ attendance.xhtmlize = function() {
             if((attendance.current - this.date < 1000 * 60 * 60 * 24) && (attendance.current.getDate() == this.date.getDate())) missAt.push(this);
         });
 
-        xhtml += '<tr' + (idx % 2 == 0 ? ' class="altRow"' : '') + '><td>' + (++idx) + '</td><td>' + idn + '</td><td>' + name + '</td><td>' + missAt.length + '</td><td>' + missSince.length + '</td>';
+        xhtml += '<tr><td></td><td>' + idn + '</td><td>' + name + '</td><td>' + missAt.length + '</td><td>' + missSince.length + '</td>';
         });
-    $('#data tbody').html(xhtml);
 
-    $("table").trigger("update"); 
-    $("table").trigger("sorton", false); 
+        $('table.dTable tbody').html(xhtml); 
+        $('table.dTable').trigger('update');
+        if($('table.dTable tr:visible').length > 2) $('table.dTable').trigger('sorton', false); 
 };
 
 function translate(dlang, callback) {
@@ -163,7 +162,8 @@ $(document).ready(function() {
             // Make tables sortable
             $('.dTable').tablesorter({ 
                 sortList: [[2,0]],
-                headers: { '0': { sorter: false } }
+                headers: { '0': { sorter: false } },
+                widgets: ['zebra', 'idx']
             }); 
 
         });
