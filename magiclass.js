@@ -51,12 +51,47 @@ attendance.xhtmlize = function() {
         });
 
         xhtml += '<tr><td></td><td>' + idn + '</td><td>' + name + '</td><td>' + missAt.length + '</td><td>' + missSince.length + '</td>';
-        });
+    });
 
-        $('table.dTable tbody').html(xhtml); 
-        $('table.dTable').trigger('update');
-        if($('table.dTable tr:visible').length > 2) $('table.dTable').trigger('sorton', false); 
+    $('table.dTable tbody').html(xhtml); 
+
+    // Fix table sorter
+    $('table.dTable').trigger('update');
+    if($('table.dTable tr:visible').length > 2) $('table.dTable').trigger('sorton', false); 
+
+    // Bind tooltips
+    $('table.dTable tr').each(function() {
+        jQuery(this).find('td').eq(3).hover(function(e) {
+
+            $("body").append("<p id='tooltip'>lalalala</p>");
+            $("#tooltip")
+                .css("top",(e.pageY - 10) + "px")
+                .css("left",(e.pageX + 10) + "px")
+                .fadeIn("fast");		
+        }, function(e) {
+            $("#tooltip").remove();
+        }).mousemove(function(e) {
+    		$("#tooltip").css("top",(e.pageY - 10) + "px").css("left",(e.pageX + 10) + "px");
+        }).end().eq(4).click(function(e) {
+        });
+    });
 };
+
+function fitToWin() {
+    var winH = $('body').innerHeight();
+    var winW = $('body').innerWidth();
+    $('div#tabs').height(winH - 30);
+    $('div#tabs').width(winW - 22);
+    var tbodO = $('table.dTable tbody').offset()['top'];
+    var footH = $('#footer').height();
+    $('table.dTable tbody').css('height',  (winH - tbodO - footH - 20) + 'px');
+    /*
+    var height = $('#footer').offset()['top'] - top;
+    $('table.dTable tbody').css('height',  (height - ofst) + 'px');
+    $('div#data').css('height',  height + 'px');
+    var footO = $('#footer').offset()['top'];
+    */
+}
 
 function translate(dlang, callback) {
     $.getScript(dlang + '.js', function() {
@@ -144,7 +179,7 @@ $(document).ready(function() {
     $('input:text').keydown(function(e) {
         switch(this.id) {
             case 'idNumInp':
-                if(e.which > 64 && e.which < 91) return false;
+                if((e.which > 64 && e.which < 91) || e.which < 1) return false;
                 break;
         }
     }).keyup(function(e) {
@@ -170,4 +205,7 @@ $(document).ready(function() {
 
         });
     });
+
+    fitToWin();
+    $(window).resize(fitToWin);
 });

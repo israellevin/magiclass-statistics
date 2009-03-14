@@ -17,20 +17,12 @@ input[type="text"]
     display: block;
 }
 
-div#all
-{
-    position: relative;
-    height:auto !important;
-	height:100%;
-	min-height:100%;
-}
-
 div#tabs
 {
     position: absolute;
-    top: 3px;
-    height: 100%; 
-    background: #e2ffa8;
+    margin: 3px;
+    height: 96%; 
+    width: 98%; 
 }
 
 img#logo
@@ -48,7 +40,7 @@ div#footer
 {
     position: absolute;
     bottom: 0px;
-    min-height: 3em;
+    min-height: 50px;
     width: 100%;
 }
 
@@ -77,7 +69,6 @@ table.dTable td, th
 }
 
 
-
 div.ui-datepicker
 {
     top: 0px;
@@ -87,3 +78,13 @@ div.ui-datepicker
 {
     padding: 0px;
 }
+
+
+#tooltip{
+	position:absolute;
+	border:1px solid #333;
+	background:#f7f5d1;
+	padding:2px 5px;
+	color:#333;
+	display:none;
+	}	

@@ -1,14 +1,12 @@
 /* tables */
 table.tablesorter {
 	font-family:arial;
-	background-color: #CDCDCD;
-	margin:10px 0pt 15px;
-	font-size: 8pt;
+	margin:1em 0pt 1em;
 	width: 100%;
 	text-align: left;
 }
 table.tablesorter thead tr th, table.tablesorter tfoot tr th {
-	background-color: #e6EEEE;
+	background-color: #c1d5e4;
 	border: 1px solid #FFF;
 	font-size: 8pt;
 	padding: 4px;
@@ -24,7 +22,7 @@ table.tablesorter tbody td {
 	background-color: #FFF;
 }
 table.tablesorter tbody tr.odd td {
-	background-color:#F0F0F6;
+	background-color:#f5f8f9;
 }
 table.tablesorter thead tr .headerSortUp {
 	background-image: url(asc.gif);
@@ -33,5 +31,5 @@ table.tablesorter thead tr .headerSortDown {
 	background-image: url(desc.gif);
 }
 table.tablesorter thead tr .headerSortDown, table.tablesorter thead tr .headerSortUp {
-background-color: #8dbdd8;
+background-color: #89afcd;
 }
