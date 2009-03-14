@@ -47,17 +47,17 @@ attendance.xhtmlize = function() {
         var missAt = [];
         var missSince = [];
         jQuery.each(this, function(key, val) {
-            if(this.date >= attendance.semStart) {
-                missSince.push(this);
-                if((attendance.current - this.date < 1000 * 60 * 60 * 24) && (attendance.current.getDate() == this.date.getDate())) {
-                    missAt.push(this);
-                }
-            }
+            if(this.date >= attendance.semStart) missSince.push(this);
+            if((attendance.current - this.date < 1000 * 60 * 60 * 24) && (attendance.current.getDate() == this.date.getDate())) missAt.push(this);
         });
 
         xhtml += '<tr' + (idx % 2 == 0 ? ' class="altRow"' : '') + '><td>' + (++idx) + '</td><td>' + idn + '</td><td>' + name + '</td><td>' + missAt.length + '</td><td>' + missSince.length + '</td>';
         });
     $('#data tbody').html(xhtml);
+
+        $("table").trigger("update"); 
+
+
 };
 
 function translate(dlang, callback) {
@@ -141,11 +141,16 @@ $(document).ready(function() {
 
 
     // Bind inputs
-    $('input:text').keyup(function(e) {
+    $('input:text').keydown(function(e) {
         switch(this.id) {
             case 'idNumInp':
                 if(e.which > 64 && e.which < 91) return false;
-                if(this.value.length > 9) return false;
+                break;
+        }
+    }).keyup(function(e) {
+        switch(this.id) {
+            case 'idNumInp':
+                if(this.value.length > 9) this.value = this.value.substring(0, 9);
                 break;
         }
         attendance.xhtmlize();
@@ -155,6 +160,14 @@ $(document).ready(function() {
         // Load the data
         $.getScript('data.js', function() {
             attendance.xhtmlize();
+
+            // Make tables sortable
+            $('.dTable').tablesorter({ 
+                sortList: [[0,0]],
+                //debug: true,
+                headers: { '0': { sorter: false } }
+            }); 
+
         });
     });
 });
