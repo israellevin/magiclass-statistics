@@ -25,40 +25,24 @@ div#all
 	min-height:100%;
 }
 
-div#header
+div#tabs
 {
     position: absolute;
-    top: 0px;
-    min-height: 3em;
-    width: 100%;
-    font-size: 20px;
+    top: 3px;
+    height: 100%; 
+    background: #e2ffa8;
 }
 
-    img#logo
-    {
-        padding: 0em 3em 0em 3em;
-        float: left;
-    }
+img#logo
+{
+    float: right;
+}
 
 div#content
 {
-    padding: 5em 0em 3em 0em;
+    padding: 3px;
     overflow: auto;
 }
-
-    div#panel
-    {
-        width: 30%;
-        margin: 1em;
-        padding: 1em;
-        display: inline;
-    }
-
-    div#data
-    {
-        margin: 1em;
-        padding: 1em;
-    }
 
 div#footer
 {
@@ -75,14 +59,9 @@ table.dTable
 
 table.dTable tbody
 {
-    height: 20em;
+    height: 300px;
     overflow-y: auto;
     overflow-x: hidden;
-}
-
-:able.dTable th
-{
-    border-bottom: 1px solid black;
 }
 
 table.dTable th span
@@ -97,7 +76,14 @@ table.dTable td, th
     text-align: left;
 }
 
+
+
 div.ui-datepicker
 {
     top: 0px;
+}
+
+.ui-tabs .ui-tabs-panel
+{
+    padding: 0px;
 }

@@ -5,7 +5,7 @@
 
 img#logo
 {
-    float: right;
+    float: left;
 }
 
 table.dTable th span
@@ -18,4 +18,9 @@ table.dTable td, th
 {
     padding: 0em 1em 0em 0em;
     text-align: right;
+}
+
+.ui-tabs .ui-tabs-nav li
+{
+    float: right;
 }
