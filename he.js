@@ -6,6 +6,8 @@ lang = {
 	days: ['א', 'ב', 'ג', 'ד', 'ה', 'ו', 'ש'],
     dateFormat: 'dd/mm/yy',
     firstDay: '1',
+    dateClose: 'סגור',
+    dateToday: 'היום',
     next: 'הבא',
     prev: 'הקודם',
     dailyReport: 'דו"ח יומי - כלל בית-ספרי',

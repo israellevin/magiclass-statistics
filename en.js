@@ -6,6 +6,8 @@ lang = {
 	days: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
     dateFormat: 'mm/dd/yy',
     firstDay: '2',
+    dateClose: 'Close',
+    dateToday: 'Today',
     next: 'next',
     prev: 'prev',
     dailyReport: 'Daily report - entire school',

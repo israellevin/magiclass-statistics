@@ -93,4 +93,11 @@ div.ui-datepicker
 	display:none;
     font-size: 12px;
     font-family: Monospace;
+}
+
+div.flot
+{
+    margin: 1em;
+    width: 600px;
+    height: 400px;
 }	

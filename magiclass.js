@@ -6,6 +6,10 @@ var lessons = [];
 var classes = [];
 var students = [];
 
+var data;
+var placeholder;
+var options;
+
 // Helper functions
 function rnd(max) { return Math.floor(Math.random() * max) }
 function mkDate() {
@@ -100,12 +104,6 @@ function fitToWin() {
     var tbodO = $('table.dTable tbody').offset()['top'];
     var footH = $('#footer').height();
     $('table.dTable tbody').css('height',  (winH - tbodO - footH - 20) + 'px');
-    /*
-    var height = $('#footer').offset()['top'] - top;
-    $('table.dTable tbody').css('height',  (height - ofst) + 'px');
-    $('div#data').css('height',  height + 'px');
-    var footO = $('#footer').offset()['top'];
-    */
 }
 
 function translate(dlang, callback) {
@@ -127,6 +125,12 @@ function translate(dlang, callback) {
 
         // Date picker config
         $('.datepicker').datepicker('setDate').datepicker(
+            'option', 'closeText',
+            lang['dateClose'] || 'Close'
+        ).datepicker(
+            'option', 'currentText',
+            lang['dateToday'] || 'Today'
+        ).datepicker(
             'option', 'dateFormat',
             lang['dateFormat'] || 'mm/dd/yy'
         ).datepicker(
@@ -160,7 +164,44 @@ function translate(dlang, callback) {
     });
 }
 
+function setGraph() {
+    $.plot(placeholder, data, { selection: { mode: 'x' } });
+    placeholder.resizable({
+		minWidth: 100,
+		minHeight: 100,
+        knobHandles: true,
+        stop: function(){
+            placeholder.resizable('destroy');
+            setGraph();
+        },
+	});
+}
+
 $(document).ready(function() {
+    // Set data
+    var sin = [];
+    for (var i = 0; i < 14; i += 0.5)
+        sin.push([i, Math.sin(i)]);
+
+    var d1 = {
+        data: sin,
+        label: 'sin with dots',
+        points: {show: true},
+        lines: {show: true},
+      }
+    var d2 = {data: [[0, 3], [4, 8], [8, 5], [9, 13]], label: 'bars', bars: {show: true}};
+    data = [d1, d2];
+    placeholder = $('#attendanceGraph');
+    options = { selection: { mode: 'x' } };
+    $.plot(placeholder, data, options);
+    setGraph();
+    placeholder.bind('plotselected', function (event, ranges) {
+        plot = $.plot(placeholder, data, $.extend(true, {}, options, {
+            xaxis: { min: ranges.xaxis.from, max: ranges.xaxis.to }
+        }));
+    });
+
+
     // Get language from location params in the form "lang=xx"
     var loc = document.location.href;
     var idx = loc.indexOf('?');

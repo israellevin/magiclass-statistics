@@ -1,4 +1,4 @@
-*
+div
 {
     direction: rtl;
 }
@@ -23,4 +23,9 @@ table.dTable td, th
 .ui-tabs .ui-tabs-nav li
 {
     float: right;
+}
+
+div.ui-datepicker
+{
+    right: 0px;
 }
