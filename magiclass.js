@@ -6,10 +6,6 @@ var lessons = [];
 var classes = [];
 var students = [];
 
-var data;
-var placeholder;
-var options;
-
 // Helper functions
 function rnd(max) { return Math.floor(Math.random() * max) }
 function mkDate() {
@@ -23,27 +19,98 @@ function mkDate() {
 }
 function pad(n) { n = n.toString(); return n.length == 1 ? '0' + n : n; }
 
-// Attendance data
+function fitToWin() {
+    var winH = $('body').innerHeight();
+    var winW = $('body').innerWidth();
+    $('div#tabsDiv').height(winH - 30);
+    $('div#tabsDiv').width(winW - 22);
+    var tbodO = $('table.dTable tbody').offset()['top'];
+    var footH = $('#footer').height();
+    $('table.dTable tbody').css('height',  (winH - tbodO - footH - 20) + 'px');
+}
+
+function translate(dlang, callback) {
+    $.getScript(dlang + '.js', function() {
+        if(lang.direction) {
+            if(lang.direction == 'rtl') {
+                $('head').append('<link id="rtlstyle" rel="stylesheet" type="text/css" href="rtl.css" />');
+            } else {
+                $('#rtlstyle').remove();
+            }
+        };
+        $('.translate').each(function(){
+            var j = jQuery(this);
+            j.text(lang[this.id] || lang[j.attr('name')] || this.id || j.attr('name'));
+        });
+        if(callback) callback();
+    });
+}
+
+function injectData() {
+
+    // Create class selects
+    var classInp = jQuery('<select name="classInp"><option>' + lang['allClasses'] + '</option></select>');
+    jQuery.each(classes, function(idx, val) {
+        classInp.append('<option>' + $('<p/>').text(val).html() + '</option>');
+    });
+    $('input[name="classInp"]').replaceWith(classInp);
+
+    // Make tables sortable
+    $('.dTable').tablesorter({ 
+        sortList: [[2,0]],
+        headers: { '0': { sorter: false } },
+        widgets: ['zebra', 'idx']
+    }); 
+}
+
+var studentReport = {
+    idFilter: '',
+    nameFilter: '',
+    classFilter: '',
+}
+
 var attendance = {
     full: [],
     byStud: [],
-    current: new Date(),
-    semStart: new Date(2008, 8, 1),
     name: false,
-};
-
-attendance.push = function(line) {
-    var aIdx = this.full.push(line);
-    var sIdx = line['student'];
-    if(this.byStud.hasOwnProperty(sIdx)) {
-        this.byStud[sIdx].push(this.full[aIdx - 1]);
-    } else {
-        this.byStud[sIdx] = [this.full[aIdx - 1]];
+    push: function(line) {
+        var aIdx = this.full.push(line);
+        var sIdx = line['student'];
+        if(this.byStud.hasOwnProperty(sIdx)) {
+            this.byStud[sIdx].push(this.full[aIdx - 1]);
+        } else {
+            this.byStud[sIdx] = [this.full[aIdx - 1]];
+        }
     }
 };
 
+$(document).ready(function() {
+    $('#tabsDiv').tabs();
+    fitToWin();
+    $(window).resize(fitToWin);
+
+    // Get language from location params in the form "lang=xx"
+    var loc = document.location.href;
+    var idx = loc.indexOf('?');
+    var params = idx < 0 ? '' : loc.substr(++idx);
+    params = params.split('&');
+    for(idx in params) { if(params[idx].hasOwnProperty('0')) {
+        var pair = params[idx].split('=');
+        if(pair.length == 2 && pair[0] == 'lang') { lang = pair[1]; }
+    }};
+
+    translate(lang || 'en', function() {
+        // Load the data
+        $.getScript('data.js', function() {
+            injectData();
+        });
+    });
+});
+
+/*
 attendance.xhtmlize = function() {
     var xhtml = '';
+    /*
     jQuery.each(this.byStud, function(key, val) {
         var student = students[key];
         var idn = student.id;
@@ -96,32 +163,10 @@ attendance.xhtmlize = function() {
     });
 };
 
-function fitToWin() {
-    var winH = $('body').innerHeight();
-    var winW = $('body').innerWidth();
-    $('div#tabs').height(winH - 30);
-    $('div#tabs').width(winW - 22);
-    var tbodO = $('table.dTable tbody').offset()['top'];
-    var footH = $('#footer').height();
-    $('table.dTable tbody').css('height',  (winH - tbodO - footH - 20) + 'px');
-}
-
-function translate(dlang, callback) {
-    $.getScript(dlang + '.js', function() {
-        if(lang.direction) {
-            if(lang.direction == 'rtl') {
-                $('head').append('<link id="rtlstyle" rel="stylesheet" type="text/css" href="rtl.css" />');
-            } else {
-                $('#rtlstyle').remove();
-            }
-        };
-        $('.translate').each(function(){
-                jQuery(this).text(lang[this.id] || this.id);
-        });
-
+/*
         // Save dates
-        var missAtDate = $('#missAtInp').datepicker('getDate');
-        var missSinceDate = $('#missSinceInp').datepicker('getDate');
+        var missAtDate = $('missAtInp').datepicker('getDate');
+        var missSinceDate = $('missSinceInp').datepicker('getDate');
 
         // Date picker config
         $('.datepicker').datepicker('setDate').datepicker(
@@ -160,59 +205,6 @@ function translate(dlang, callback) {
             'setDate', missSinceDate
         );
 
-        if(callback) callback();
-    });
-}
-
-function setGraph() {
-    $.plot(placeholder, data, { selection: { mode: 'x' } });
-    placeholder.resizable({
-		minWidth: 100,
-		minHeight: 100,
-        knobHandles: true,
-        stop: function(){
-            placeholder.resizable('destroy');
-            setGraph();
-        },
-	});
-}
-
-$(document).ready(function() {
-    // Set data
-    var sin = [];
-    for (var i = 0; i < 14; i += 0.5)
-        sin.push([i, Math.sin(i)]);
-
-    var d1 = {
-        data: sin,
-        label: 'sin with dots',
-        points: {show: true},
-        lines: {show: true},
-      }
-    var d2 = {data: [[0, 3], [4, 8], [8, 5], [9, 13]], label: 'bars', bars: {show: true}};
-    data = [d1, d2];
-    placeholder = $('#attendanceGraph');
-    options = { selection: { mode: 'x' } };
-    $.plot(placeholder, data, options);
-    setGraph();
-    placeholder.bind('plotselected', function (event, ranges) {
-        plot = $.plot(placeholder, data, $.extend(true, {}, options, {
-            xaxis: { min: ranges.xaxis.from, max: ranges.xaxis.to }
-        }));
-    });
-
-
-    // Get language from location params in the form "lang=xx"
-    var loc = document.location.href;
-    var idx = loc.indexOf('?');
-    var params = idx < 0 ? '' : loc.substr(++idx);
-    params = params.split('&');
-    for(idx in params) { if(params[idx].hasOwnProperty('0')) {
-        var pair = params[idx].split('=');
-        if(pair.length == 2 && pair[0] == 'lang') { lang = pair[1]; }
-    }};
-
-    $('#tabs').tabs();
 
     // Bind date pickers
     $('.datepicker').datepicker({
@@ -231,6 +223,24 @@ $(document).ready(function() {
     }}).filter('#missAtInp').datepicker('setDate', attendance.current).end().filter('#missSinceInp').datepicker('setDate', attendance.semStart);
 
 
+function bindInputs() {
+    $('input[name="classInp"]').replaceWith('<input type="button" value="' + classes.join(',') + '">');
+    $('input:text').keydown(function(e) {
+        switch(this.id) {
+            case 'idNumInp':
+                if((e.which > 64 && e.which < 91) || e.which < 1) return false;
+                break;
+        }
+    }).keyup(function(e) {
+        switch(this.id) {
+            case 'idNumInp':
+                if(this.value.length > 9) this.value = this.value.substring(0, 9);
+                break;
+        }
+    });
+
+}
+
     // Bind inputs
     $('input:text').keydown(function(e) {
         switch(this.id) {
@@ -247,21 +257,6 @@ $(document).ready(function() {
         attendance.xhtmlize();
     });
 
-    translate(lang || 'en', function() {
-        // Load the data
-        $.getScript('data.js', function() {
-            attendance.xhtmlize();
 
-            // Make tables sortable
-            $('.dTable').tablesorter({ 
-                sortList: [[2,0]],
-                headers: { '0': { sorter: false } },
-                widgets: ['zebra', 'idx']
-            }); 
-
-        });
-    });
-
-    fitToWin();
-    $(window).resize(fitToWin);
-});
+ *
+*/

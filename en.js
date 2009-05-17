@@ -1,7 +1,9 @@
 lang = {
     direction: 'ltr',
-    title: 'Attendance Reports System',
-    footext: '(c) 2008 - Magiclass ltd.',
+    pageTitle: 'Magiclass Reports System',
+    footext: '(c) 2009 - Magiclass ltd.',
+    allClasses: 'All Classes',
+
     months: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
 	days: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
     dateFormat: 'mm/dd/yy',
@@ -10,6 +12,7 @@ lang = {
     dateToday: 'Today',
     next: 'next',
     prev: 'prev',
+    studentReport: 'Student',
     dailyReport: 'Daily report - entire school',
     idNum: 'ID',
     studName: 'Name',

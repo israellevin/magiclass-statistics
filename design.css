@@ -10,15 +10,7 @@ table
     border-collapse: collapse;
 }
 
-input[type="text"]
-{
-    font-family: Arial, Sans-Serif;
-    font-size: 13px;
-    width: 7em;
-    display: block;
-}
-
-div#tabs
+div#tabsDiv
 {
     position: absolute;
     margin: 3px;
@@ -26,18 +18,28 @@ div#tabs
     width: 98%; 
 }
 
-img#logo
+ul.ui-tabs-nav
+{
+    border: 0px;
+}
+
+.ui-tabs .ui-tabs-panel
+{
+    padding: 0px;
+}
+
+img#logoImg
 {
     float: right;
 }
 
-div#content
+div#contentDiv
 {
     padding: 3px;
     overflow: auto;
 }
 
-div#footer
+div#footerDiv
 {
     position: absolute;
     bottom: 0px;
@@ -45,43 +47,12 @@ div#footer
     width: 100%;
 }
 
-table.dTable
+table.tablesorter input, select
 {
-    width: 100%;
-}
-
-table.dTable tbody
-{
-    height: 300px;
-    overflow-y: auto;
-    overflow-x: hidden;
-}
-
-table.dTable tr
-{
-    height: 1.5em;
-}
-
-table.dTable th span
-{
-    padding-left: 0em;
-    padding-right: 1em;
-}
-
-table.dTable td, th
-{
-    padding: 0em 0em 0em 1em;
-    text-align: left;
-}
-
-div.ui-datepicker
-{
-    top: 0px;
-}
-
-.ui-tabs .ui-tabs-panel
-{
-    padding: 0px;
+    font-family: Arial, Sans-Serif;
+    font-size: 13px;
+    width: 7em;
+    display: block;
 }
 
 #tooltip{
@@ -94,10 +65,3 @@ div.ui-datepicker
     font-size: 12px;
     font-family: Monospace;
 }
-
-div.flot
-{
-    margin: 1em;
-    width: 600px;
-    height: 400px;
-}	

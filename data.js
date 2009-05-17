@@ -6,7 +6,7 @@ lessons.push('13:30');
 lessons.push('14:15');
 
 classes.push('אל"ף');
-classes.push('Chem-101');
+classes.push('C<h>em-101');
 classes.push('Auto-2');
 classes.push('10th');
 classes.push('Aleph 2');

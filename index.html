@@ -1,5 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
     <head>
         <title>Magiclass Attendance Reports</title>
@@ -15,24 +16,20 @@
         <script type="text/javascript" src="magiclass.js"></script>
     </head>
     <body>
-        <div id="content">
-            <div id="tabs">
+        <div id="contentDiv">
+            <div id="tabsDiv">
+                <span id="pageTitle" class="translate"></span>
                 <ul>
-                    <img id="logo" src="logo.png"/><span id="title" class="translate"></span>
-                    <li><a href="#daily" id="dailyReport" class="translate"></a></li>
-                    <li><a href="#stam" id="???" class="translate"></a></li>
+                    <li><a href="#studentReportDiv" id="studentReportTab" class="translate"></a></li>
+                    <li><a href="#stam" id="stami" class="translate"></a></li>
                 </ul>
-                <div id="daily">
-                    <div id="data">
-                        <table class="dTable tablesorter"><thead><tr><th>#</th><th><span id="idNum" class="translate"></span><input id="idNumInp" type="text"/></th><th><span id="studName" class="translate"></span><input id="studNameInp" type="text"/></th><th><span id="missAt" class="translate"></span><input id="missAtInp" class="datepicker" type="text"></th><th><span id="missSince" class="translate"></span><input id="missSinceInp" class="datepicker" type="text"></th></tr></thead>
-                        <tbody></tbody></table>
-                    </div>
+                <div id="studentReportDiv">
+                    <table id="studentReportTable" class="tablesorter"><thead><tr><th><span name="idNum" class="translate"></span><input name="idNumInp" type="text"/></th><th><span name="studName" class="translate"></span><input name="studNameInp" type="text"/></th><th><span name="class" class="translate"></span><input name="classInp" type="text"/></th></tr></thead><tbody><tr><td></td></tr></tbody></table>
                 </div>
                 <div id="stam">
-                    <div id="attendanceGraph" class="flot"></div>
                 </div>
             </div>
         </div>
-        <div id="footer"><span id="footext" class="translate" style="position: relative; top: 1em; padding: 3em; font-size: 9px;">(c) 2008 - Magiclass ltd.</span></div>
+        <div id="footerDiv"><span id="footext" class="translate" style="position: relative; top: 1em; padding: 3em; font-size: 9px;">(c) 2009 - Magiclass ltd.</span></div>
     </body>
 </html>
