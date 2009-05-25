@@ -47,12 +47,18 @@ div#footerDiv
     width: 100%;
 }
 
-table.tablesorter input, select
+table.tablesorter th input, select
 {
     font-family: Arial, Sans-Serif;
     font-size: 13px;
     width: 7em;
     display: block;
+}
+
+table.tablesorter tbody
+{
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
 #tooltip{
