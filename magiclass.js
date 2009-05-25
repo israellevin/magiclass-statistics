@@ -53,6 +53,24 @@ function injectData() {
         classInp.append('<option value="' + idx + '">' + $('<p/>').text(val).html() + '</option>');
     });
     $('input[name="classInp"]').replaceWith(classInp);
+    
+    // Bind data entry
+    $('table#studentReportChooserTable thead th').find('input[name="idNumInp"]').keydown(function(e) {
+        if(e.which < 0 || e.which > 57) return false;
+    }).unbind('keyup', null).keyup(function(e) {
+        if(this.value.length > 9) this.value = this.value.substring(0, 9);
+        studentReport.studChoiceUpdate();
+    }).end().find('input[name="studNameInp"]').unbind('keyup', null).keyup(function(e) {
+        studentReport.studChoiceUpdate();
+    }).end().find('select[name="classInp"]').unbind('change', null).change(function(e) {
+        studentReport.studChoiceUpdate();
+    });
+
+    // Bind clicks
+    $('button#studentReportChooserShowBtn').click(function(e) {
+        studentReport.curStud = null;
+        studentReport.studChoiceUpdate();
+    });
 
     studentReport.studChoiceUpdate();
 
@@ -70,83 +88,76 @@ var studentReport = {
     nameFilter: null,
     classFilter: null,
     studChoiceUpdate: function() {
-        var idFilter = $('table#studentReportChooserTable thead input[name="idNumInp"]').val();
-        var nameFilter = $('table#studentReportChooserTable thead input[name="studNameInp"]').val();
-        var classFilter = parseInt($('table#studentReportChooserTable thead select[name="classInp"] option:selected').val());
-        // Must we?
-        if((idFilter == this.idFilter) && (nameFilter == this.nameFilter) && (classFilter == this.classFilter)) return true;
-        this.filtered = [];
-        this.idFilter = idFilter;
-        this.nameFilter = nameFilter;
-        this.classFilter = classFilter;
-        var i;
-        jQuery.each(students, function(key, val) {
-            i = studentReport.idFilter;
-            if((i) && (i.length > 0) && (val['id'].indexOf(i) == -1)) return true;
-            i = studentReport.nameFilter.toLowerCase();
-            if((i) && (i.length > 0) && (val['name'].toLowerCase().indexOf(i) == -1)) return true;
-            i = studentReport.classFilter;
-            if(i > -1) {
-                var notInClass = true;
-                jQuery.each(val['classes'], function(key, val) {
-                    if(val == i) {
-                        notInClass = false;
-                        return true;
-                    }
-                });
-                if(notInClass) return true;
-            }
-            studentReport.filtered.push(key);
-        });
-        var xhtml = '';
-        jQuery.each(this.filtered, function(key, val) {
-            xhtml += '<tr><td style="display: none">' + val + '</td><td>' + students[val]['id'] + '</td><td>' + students[val]['name'] + '</td><td>' + ((studentReport.classFilter > -1) ? (classes[studentReport.classFilter]) : (classes[students[val]['classes'][0]]) || '') + '</td></tr>';
-        });
-        $('table#studentReportChooserTable tbody').html(xhtml);
-        fitToWin();
-
-        // Fix table sorter
-        $('table#studentReportChooserTable').trigger('update');
-        $('table#studentReportChooserTable:has(tbody tr').trigger('sorton', false); 
-
-        // Bind data entry
-        $('table#studentReportChooserTable thead th').find('input[name="idNumInp"]').keydown(function(e) {
-            if(e.which < 0 || e.which > 57) return false;
-        }).unbind('keyup', null).keyup(function(e) {
-            if(this.value.length > 9) this.value = this.value.substring(0, 9);
-            studentReport.studChoiceUpdate();
-        }).end().find('input[name="studNameInp"]').unbind('keyup', null).keyup(function(e) {
-            studentReport.studChoiceUpdate();
-        }).end().find('select[name="classInp"]').unbind('change', null).change(function(e) {
-            studentReport.studChoiceUpdate();
-        });
-
-
-        // Bind clicks
-        $('table#studentReportChooserTable tbody tr').click(function(e) {
-            alert(students['' + $(this).find('td').eq(0).text()].name);
-            studentReport.curStud = students[$(this).find('td').eq(0).text()];
-            studentReport.studChoiceUpdate();
-        // Hilite tr
-        }).hover(function(e) {
-            jQuery(this).find('td').css('color', 'red');
-        }, function() {
-            jQuery(this).find('td').css('color', 'black');
-        // Bind tooltips
-        }).each(function() {
-            jQuery(this).find('td').eq(2).hover(function(e) {
-                var t = '<img src="pic.png"/>';
-                $('body').append('<p id="tooltip">' + t + '</p>');
-                $('#tooltip')
-                    .css('top',(e.pageY - 10) + 'px')
-                    .css('left',(e.pageX + 10) + 'px')
-                    .fadeIn('slow');		
-            }, function(e) {
-                $('#tooltip').remove();
-            }).mousemove(function(e) {
-                $('#tooltip').css('top',(e.pageY - 10) + 'px').css('left',(e.pageX + 10) + 'px');
+        if(null == this.curStud) {
+            $('table#studentReportChooserTable').css('display', 'table');
+            $('button#studentReportChooserShowBtn').css('display', 'none');
+            var idFilter = $('table#studentReportChooserTable thead input[name="idNumInp"]').val();
+            var nameFilter = $('table#studentReportChooserTable thead input[name="studNameInp"]').val();
+            var classFilter = parseInt($('table#studentReportChooserTable thead select[name="classInp"] option:selected').val());
+            // Must we?
+            if((idFilter == this.idFilter) && (nameFilter == this.nameFilter) && (classFilter == this.classFilter)) return true;
+            this.filtered = [];
+            this.idFilter = idFilter;
+            this.nameFilter = nameFilter;
+            this.classFilter = classFilter;
+            var i;
+            jQuery.each(students, function(key, val) {
+                i = studentReport.idFilter;
+                if((i) && (i.length > 0) && (val['id'].indexOf(i) == -1)) return true;
+                i = studentReport.nameFilter.toLowerCase();
+                if((i) && (i.length > 0) && (val['name'].toLowerCase().indexOf(i) == -1)) return true;
+                i = studentReport.classFilter;
+                if(i > -1) {
+                    var notInClass = true;
+                    jQuery.each(val['classes'], function(key, val) {
+                        if(val == i) {
+                            notInClass = false;
+                            return true;
+                        }
+                    });
+                    if(notInClass) return true;
+                }
+                studentReport.filtered.push(key);
             });
-        });
+            var xhtml = '';
+            jQuery.each(this.filtered, function(key, val) {
+                xhtml += '<tr><td style="display: none">' + val + '</td><td>' + students[val]['id'] + '</td><td>' + students[val]['name'] + '</td><td>' + ((studentReport.classFilter > -1) ? (classes[studentReport.classFilter]) : (classes[students[val]['classes'][0]]) || '') + '</td></tr>';
+            });
+            $('table#studentReportChooserTable tbody').html(xhtml);
+            fitToWin();
+
+            // Fix table sorter
+            $('table#studentReportChooserTable').trigger('update');
+            $('table#studentReportChooserTable').trigger('sorton', false); 
+
+            // Bind clicks
+            $('table#studentReportChooserTable tbody tr').click(function(e) {
+                studentReport.curStud = students[$(this).find('td').eq(0).text()];
+                studentReport.studChoiceUpdate();
+            // Hilite tr
+            }).hover(function(e) {
+                jQuery(this).find('td').css('color', 'red');
+            }, function() {
+                jQuery(this).find('td').css('color', 'black');
+            // Bind tooltips
+            }).each(function() {
+                jQuery(this).find('td').eq(2).hover(function(e) {
+                    var t = '<img src="pic.png"/>';
+                    $('body').append('<p id="tooltip">' + t + '</p>');
+                    $('#tooltip')
+                        .css('top',(e.pageY - 10) + 'px')
+                        .css('left',(e.pageX + 10) + 'px')
+                        .fadeIn('slow');		
+                }, function(e) {
+                    $('#tooltip').remove();
+                }).mousemove(function(e) {
+                    $('#tooltip').css('top',(e.pageY - 10) + 'px').css('left',(e.pageX + 10) + 'px');
+                });
+            });
+        } else {
+            $('table#studentReportChooserTable').css('display', 'none');
+            $('button#studentReportChooserShowBtn').css('display', 'block');
+        }
     }
 };
 
