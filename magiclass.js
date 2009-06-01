@@ -17,6 +17,13 @@ function mkDate() {
     }
     return d;
 }
+function date2txt(d) {
+    var day = d.getDay();
+    var month = d.getMonth();
+    var year = d.getFullYear();
+    var s = (lang['dateFormat'] || '$y-m-d$').replace('d', day).replace('m', month).replace('y', year);
+    return s;
+}
 function pad(n) { n = n.toString(); return n.length == 1 ? '0' + n : n; }
 
 function fitToWin() {
@@ -25,26 +32,16 @@ function fitToWin() {
     $('div#tabsDiv').height(winH - 30);
     $('div#tabsDiv').width(winW - 22);
 
-    // Height calculations
-    // Must make element visible for calc, so must store old value to restore
-    var oldD;
     // Natural top of element
     var elemTop;
     // Height of footer, which should get to bottom of page
     var footH = $('#footerDiv').height();
 
-    oldD = $('table#studentReportChooserTable').css('display');
-    elemTop = $('table#studentReportChooserTable').css('display', 'table').find('tbody').offset()['top'];
-    $('table#studentReportChooserTable').css('display', oldD);
-
+    elemTop = $('table#studentReportChooserTable tbody').offset()['top'];
     $('table#studentReportChooserTable tbody').height('' + (winH - elemTop - footH - 10) + 'px');
 
-    oldD = $('div#studSingleScrollDiv').css('display');
-    elemTop = $('div#studSingleScrollDiv').css('display', 'block').find('tbody').offset()['top'];
-    $('div#studSingleScrollDiv').css('display', oldD);
-
-    $('div#studSingleScrollDiv').height('' + (winH - elemTop - footH - 10) + 'px');
-    */
+    elemTop = $('div#studSingleScrollDiv').offset()['top'];
+    $('div#studSingleScrollDiv').height('' + (winH - elemTop - footH - 20) + 'px');
 }
 
 function translate(dlang, callback) {
@@ -88,6 +85,7 @@ function injectData() {
     $('button#studentReportChooserShowBtn').click(function(e) {
         studentReport.curStud = null;
         studentReport.studChoiceUpdate();
+        fitToWin();
     });
 
     studentReport.studChoiceUpdate();
@@ -142,7 +140,6 @@ var studentReport = {
                 xhtml += '<tr><td style="display: none">' + val + '</td><td>' + students[val]['id'] + '</td><td>' + students[val]['name'] + '</td><td>' + ((studentReport.classFilter > -1) ? (classes[studentReport.classFilter]) : (classes[students[val]['classes'][0]]) || '') + '</td></tr>';
             });
             $('table#studentReportChooserTable tbody').html(xhtml);
-            fitToWin();
 
             // Fix table sorter
             $('table#studentReportChooserTable').trigger('update');
@@ -152,6 +149,7 @@ var studentReport = {
             $('table#studentReportChooserTable tbody tr').click(function(e) {
                 studentReport.curStud = students[$(this).find('td').eq(0).text()];
                 studentReport.studChoiceUpdate();
+                fitToWin();
             // Hilite tr
             }).hover(function(e) {
                 jQuery(this).find('td').css('color', 'red');
@@ -186,10 +184,12 @@ var studentReport = {
             $('#studNumOfMisses').text(atts.numOfMisses);
             $('#studNumOfActivities').text(atts.numOfActivities);
             $('#studAttendanceTableDiv table tbody').html(atts.table);
+            $('#studAttendanceTableDiv table').tablesorter(); 
 
             $('table#studentReportChooserTable').css('display', 'none');
             $('div#studentReportSingleDiv').css('display', 'block');
         }
+        setTimeout("fitToWin();", 100);
     }
 };
 
@@ -216,7 +216,7 @@ var attendance = {
         stat.table = '';
         jQuery.each(studData, function(key, val) {
             if(val['time'] === null) stat.numOfMisses++;
-            stat.table += '<tr><td>1</td><td>2</td><td>3</td></tr>';
+            stat.table += '<tr><td>' + date2txt(val['date']) + '</td><td>' + lessons[val['lesson']] + '</td><td>' + classes[val['clas']] + '</td><td>' + (val['time'] || lang['missing']) + '</td></tr>';
         });
 
         return stat;
@@ -225,7 +225,6 @@ var attendance = {
 
 $(document).ready(function() {
     $('#tabsDiv').tabs();
-    fitToWin();
     $(window).resize(fitToWin);
 
     // Get language from location params in the form "lang=xx"

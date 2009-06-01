@@ -7,10 +7,11 @@ lang = {
     studNumOfMissesLabel: 'Missed',
     studNumOfActivitiesLabel: 'out of',
     studPostActivitiesLabel: 'Magiclass activities',
+    missing: 'Missing',
 
     months: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
 	days: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
-    dateFormat: 'mm/dd/yy',
+    dateFormat: 'm/d/y',
     firstDay: '2',
     dateClose: 'Close',
     dateToday: 'Today',
