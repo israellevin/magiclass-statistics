@@ -18,13 +18,15 @@ $(document).ready(function() {
     for(var idx = 0; idx < 100; idx++) {
         s += 'students.push({id: \'' + (rnd(899999999) + 100000000) + '\', name: \'' + rndName() + '\', classes: [';
         c = classes.slice();
-        for(var cidx = 0; cidx < (rnd(3) + rnd(3) + rnd(3)); cidx++) {
-            if(cidx > 0) s += ', ';
+        for(var cidx = 0; cidx < (rnd(c.length) || rnd(c.length * 3)); cidx++) {
             x = rnd(c.length);
-            s += x;
-            c.splice(x, 1);
-            if(c.length < 1) break;
+            if(c[x] != '') {
+                if(cidx > 0) s += ', ';
+                s += x;
+                c[x] = '';
+            }
         }
+
         s += ']});<br>';
     }
 

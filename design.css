@@ -71,3 +71,9 @@ table.tablesorter tbody
     font-size: 12px;
     font-family: Monospace;
 }
+
+div#studSingleScrollDiv
+{
+    overflow-x: hidden;
+    overflow-y: auto;
+}

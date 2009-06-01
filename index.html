@@ -24,8 +24,24 @@
                     <li><a href="#stam" id="stami" class="translate"></a></li>
                 </ul>
                 <div id="studentReportDiv">
-                    <button id="studentReportChooserShowBtn" style="background-color: white;" class="translate">Show chooser</button>
                     <table id="studentReportChooserTable" class="tablesorter"><thead><tr><th style="display: none">Student keys</th><th><span name="idNum" class="translate"></span><input name="idNumInp" type="text"/></th><th><span name="studName" class="translate"></span><input name="studNameInp" type="text"/></th><th><span name="class" class="translate"></span><input name="classInp" type="text"/></th></tr></thead><tbody><tr><td colspan="3"></td></tr></tbody></table>
+                    <div id="studentReportSingleDiv">
+                        <h3 id="studNameH"></h3>
+                        <div id="studSingleScrollDiv">
+                            <h4 id="studIdH"></h4>
+                            <img id="studPic"/>
+                            <ul id="studClssUl"></ul>
+                            <span id="studNumOfMissesLabel" class="translate"></span>
+                            <span id="studNumOfMisses"></span>
+                            <span id="studNumOfActivitiesLabel" class="translate"></span>
+                            <span id="studNumOfActivities"></span>
+                            <span id="studPostActivitiesLabel" class="translate"></span>
+                            <div id="studAttendanceTableDiv">
+                                <table class="inner"><thead><tr><th name="date" class="translate"></th><th name="class" class="translate"></th><th name="timestamp" class="translate"></th></tr></thead><tbody></tbody></table>
+                            </div>
+                        </div>
+                        <button id="studentReportChooserShowBtn" style="background-color: white;" class="translate">Show chooser</button>
+                    </div>
                 </div>
                 <div id="stam">
                 </div>

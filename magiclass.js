@@ -24,9 +24,27 @@ function fitToWin() {
     var winW = $('body').innerWidth();
     $('div#tabsDiv').height(winH - 30);
     $('div#tabsDiv').width(winW - 22);
-    var tbodO = $('table#studentReportChooserTable tbody').offset()['top'];
+
+    // Height calculations
+    // Must make element visible for calc, so must store old value to restore
+    var oldD;
+    // Natural top of element
+    var elemTop;
+    // Height of footer, which should get to bottom of page
     var footH = $('#footerDiv').height();
-    $('table#studentReportChooserTable tbody').css('height',  (winH - tbodO - footH - 10) + 'px');
+
+    oldD = $('table#studentReportChooserTable').css('display');
+    elemTop = $('table#studentReportChooserTable').css('display', 'table').find('tbody').offset()['top'];
+    $('table#studentReportChooserTable').css('display', oldD);
+
+    $('table#studentReportChooserTable tbody').height('' + (winH - elemTop - footH - 10) + 'px');
+
+    oldD = $('div#studSingleScrollDiv').css('display');
+    elemTop = $('div#studSingleScrollDiv').css('display', 'block').find('tbody').offset()['top'];
+    $('div#studSingleScrollDiv').css('display', oldD);
+
+    $('div#studSingleScrollDiv').height('' + (winH - elemTop - footH - 10) + 'px');
+    */
 }
 
 function translate(dlang, callback) {
@@ -90,7 +108,7 @@ var studentReport = {
     studChoiceUpdate: function() {
         if(null == this.curStud) {
             $('table#studentReportChooserTable').css('display', 'table');
-            $('button#studentReportChooserShowBtn').css('display', 'none');
+            $('div#studentReportSingleDiv').css('display', 'none');
             var idFilter = $('table#studentReportChooserTable thead input[name="idNumInp"]').val();
             var nameFilter = $('table#studentReportChooserTable thead input[name="studNameInp"]').val();
             var classFilter = parseInt($('table#studentReportChooserTable thead select[name="classInp"] option:selected').val());
@@ -155,8 +173,22 @@ var studentReport = {
                 });
             });
         } else {
+            $('#studNameH').text(this.curStud['name']);
+            $('#studIdH').text(this.curStud['id']);
+            $('#studPic').attr('src', 'pic.png');
+            var xhtml = '';
+            jQuery.each(this.curStud['classes'], function(key, val) {
+                xhtml += '<li>' + classes[val] + '</li>';
+                
+            });
+            $('#studClssUl').html(xhtml);
+            var atts = attendance.studStats(this.curStud['id']);
+            $('#studNumOfMisses').text(atts.numOfMisses);
+            $('#studNumOfActivities').text(atts.numOfActivities);
+            $('#studAttendanceTableDiv table tbody').html(atts.table);
+
             $('table#studentReportChooserTable').css('display', 'none');
-            $('button#studentReportChooserShowBtn').css('display', 'block');
+            $('div#studentReportSingleDiv').css('display', 'block');
         }
     }
 };
@@ -167,12 +199,27 @@ var attendance = {
     name: false,
     push: function(line) {
         var aIdx = this.full.push(line);
-        var sIdx = line['student'];
+        var sIdx = students[line['student']]['id'];
         if(this.byStud.hasOwnProperty(sIdx)) {
             this.byStud[sIdx].push(this.full[aIdx - 1]);
         } else {
             this.byStud[sIdx] = [this.full[aIdx - 1]];
         }
+    },
+    studStats: function(studId) {
+        if(!this.byStud[studId]) return false;
+        var studData = this.byStud[studId];
+        var stat = {};
+        stat.numOfActivities = studData.length;
+        // Calculate total missed activities and generate table
+        stat.numOfMisses = 0;
+        stat.table = '';
+        jQuery.each(studData, function(key, val) {
+            if(val['time'] === null) stat.numOfMisses++;
+            stat.table += '<tr><td>1</td><td>2</td><td>3</td></tr>';
+        });
+
+        return stat;
     }
 };
 

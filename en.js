@@ -3,7 +3,10 @@ lang = {
     pageTitle: 'Magiclass Reports System',
     footext: '(c) 2009 - Magiclass ltd.',
     allClasses: 'All Classes',
-    studentReportChooserShowBtn: 'New Student',
+    studentReportChooserShowBtn: 'Switch Student',
+    studNumOfMissesLabel: 'Missed',
+    studNumOfActivitiesLabel: 'out of',
+    studPostActivitiesLabel: 'Magiclass activities',
 
     months: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
 	days: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
