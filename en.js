@@ -8,6 +8,7 @@ lang = {
     studNumOfActivitiesLabel: 'out of',
     studPostActivitiesLabel: 'Magiclass activities',
     missing: 'Missing',
+	studGradeLabel: 'Avg. grade:',
 
     months: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
 	days: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],

@@ -11,6 +11,13 @@ classes.push('Auto-2');
 classes.push('10th');
 classes.push('Aleph 2');
 
+presentations.push('מערכת השמש');
+presentations.push('chem 101');
+presentations.push('Baby Einstein');
+presentations.push('Bridges');
+presentations.push('Moats');
+presentations.push('Macrame');
+
 students.push({id: '969481498', name: 'Leth Gump', classes: [2]});
 students.push({id: '598693635', name: 'Omunia Omycia', classes: [3, 4, 0]});
 students.push({id: '206414433', name: 'Blulfbum Denonth', classes: [4]});
@@ -121,5 +128,16 @@ for(var idx = 0; idx < 5000; idx++) {
         clas: rnd(classes.length),
         student: rnd(students.length),
         time: rnd(10) == 0 ? null : rnd(1000)
+    });
+}
+
+for(var idx = 0; idx < 5000; idx++) {
+    grades.push({
+        presentation: rnd(presentations.length),
+        date: mkDate(),
+        lesson: rnd(lessons.length),
+        clas: rnd(classes.length),
+        student: rnd(students.length),
+        grade: rnd(100)
     });
 }

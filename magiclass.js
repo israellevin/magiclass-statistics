@@ -5,6 +5,7 @@ var lang;
 var lessons = [];
 var classes = [];
 var students = [];
+var presentations = [];
 
 // Helper functions
 function rnd(max) { return Math.floor(Math.random() * max) }
@@ -180,11 +181,24 @@ var studentReport = {
                 
             });
             $('#studClssUl').html(xhtml);
+            var grds = grades.studStats(this.curStud['id']);
+            if(grds) {
+                $('#studGrade').text(grds.avgGrade);
+                $('#studGradeTableDiv table tbody').html(grds.table);
+                $('#studGradeTableDiv table').tablesorter();
+            } else {
+                $('#studGrade').text(lang[noGrade]);
+                $('#studGradeTableDivstudGradeTableDiv table').css('display', 'none');
+            }
             var atts = attendance.studStats(this.curStud['id']);
             $('#studNumOfMisses').text(atts.numOfMisses);
             $('#studNumOfActivities').text(atts.numOfActivities);
-            $('#studAttendanceTableDiv table tbody').html(atts.table);
-            $('#studAttendanceTableDiv table').tablesorter(); 
+            if(atts) {
+                $('#studAttendanceTableDiv table tbody').html(atts.table);
+                $('#studAttendanceTableDiv table').tablesorter();
+            } else {
+                $('#studAttendanceTableDiv table').css('display', 'none');
+            }
 
             $('table#studentReportChooserTable').css('display', 'none');
             $('div#studentReportSingleDiv').css('display', 'block');
@@ -222,6 +236,50 @@ var attendance = {
         return stat;
     }
 };
+
+var grades = {
+    full: [],
+    byStud: [],
+    byClass: [],
+    byPresentation: [],
+    push: function(line) {
+        var aIdx = this.full.push(line);
+        var sIdx = students[line['student']]['id'];
+        if(this.byStud.hasOwnProperty(sIdx)) {
+            this.byStud[sIdx].push(this.full[aIdx - 1]);
+        } else {
+            this.byStud[sIdx] = [this.full[aIdx - 1]];
+        }
+
+        var cIdx = line['clas']
+        if(this.byClass.hasOwnProperty(cIdx)) {
+            this.byClass[cIdx].push(this.full[aIdx - 1]);
+        } else {
+            this.byClass[cIdx] = [this.full[aIdx - 1]];
+        }
+
+        var pIdx = line['presentation']
+        if(this.byPresentation.hasOwnProperty(pIdx)) {
+            this.byPresentation[pIdx].push(this.full[aIdx - 1]);
+        } else {
+            this.byPresentation[pIdx] = [this.full[aIdx - 1]];
+        }
+    },
+	studStats: function(studId) {
+        if(!this.byStud[studId] || this.byStud[studId].length < 1) return false;
+        var studData = this.byStud[studId];
+        var stat = {};
+        stat.avgGrade = rnd(100);
+        // Generate table
+        stat.table = '';
+        var s = 0
+        jQuery.each(studData, function(key, val) {
+            stat.table += '<tr><td>' + date2txt(val['date']) + '</td><td>' + lessons[val['lesson']] + '</td><td>' + rnd(100) + '</td></tr>';
+        });
+
+        return stat;
+    }
+}
 
 $(document).ready(function() {
     $('#tabsDiv').tabs();
